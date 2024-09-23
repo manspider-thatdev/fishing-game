@@ -9,11 +9,14 @@ enum State { WINDUP, CAST, REEL }
 @export var max_cast_distance: float = 250.0
 @export var cast_time: float = 2.0
 
+@export var reel_speed: float = 50.0
+
 var state := State.WINDUP
 var predicted_cast: float = 0.0: 
 	set(value):
-		predicted_cast = value
-		label.text = "Predicted Cast: " + str(snappedf(value, 0.1))
+		predicted_cast = snappedf(value, 0.01)
+		label.text = "Predicted Cast: " + str(predicted_cast)
+var is_reeling: bool = false
 
 
 func windup(event: InputEvent) -> void:
@@ -35,15 +38,26 @@ func cast(event: InputEvent) -> void:
 
 
 func reel(event: InputEvent) -> void:
-	pass
+	if event.is_action_pressed("space"):
+		is_reeling = true
+	elif event.is_action_released("space"):
+		is_reeling = false
+		if position.y <= 0:
+			state = State.WINDUP
+			predicted_cast = -1
 
 
 func _physics_process(delta: float) -> void:
-	if not state == State.CAST:
-		return
+	if state == State.CAST:
+		position.y = move_toward(position.y, predicted_cast + 0.01, cast_speed * delta)
+		label.text = "Current Depth: " + str(snappedf(position.y, 0.01))
+		
+		if position.y >= predicted_cast:
+			state = State.REEL
 	
-	position.y = minf(position.y + (cast_speed * delta), predicted_cast)
-	label.text = "Current Depth: " + str(snappedf(position.y, 0.1))
+	elif state == State.REEL and is_reeling:
+		position.y = move_toward(position.y, 0.0, cast_speed * delta)
+		label.text = "Current Depth: " + str(snappedf(position.y, 0.01))
 
 
 func _input(event: InputEvent) -> void:
@@ -51,3 +65,5 @@ func _input(event: InputEvent) -> void:
 		windup(event)
 	elif state == State.CAST:
 		cast(event)
+	elif state == State.REEL:
+		reel(event)
