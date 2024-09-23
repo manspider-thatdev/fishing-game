@@ -1,10 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://chhy74jwp0mhi"]
+[gd_scene load_steps=3 format=3 uid="uid://cjy642yatxidm"]
 
 [ext_resource type="Script" path="res://scripts/bobber.gd" id="1_4j1gh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ymqt8"]
 
-[node name="Bobber" type="CharacterBody2D"]
+[node name="Bobber" type="Area2D"]
 script = ExtResource("1_4j1gh")
 cast_speed = 100.0
 

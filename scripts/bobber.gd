@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends Area2D
 
 enum State { WINDUP, CAST, REEL }
 
@@ -9,6 +9,8 @@ enum State { WINDUP, CAST, REEL }
 @export var max_cast_distance: float = 250.0
 @export var cast_time: float = 2.0
 
+@export var nudge_speed: float = 20.0
+
 @export var reel_speed: float = 50.0
 
 var state := State.WINDUP
@@ -16,6 +18,9 @@ var predicted_cast: float = 0.0:
 	set(value):
 		predicted_cast = snappedf(value, 0.01)
 		label.text = "Predicted Cast: " + str(predicted_cast)
+var velocity: Vector2:
+	get:
+		return Input.get_vector("left", "right", "up", "down")
 var is_reeling: bool = false
 
 
@@ -26,7 +31,6 @@ func windup(event: InputEvent) -> void:
 	
 	elif event.is_action_released("space"):
 		timer.stop()
-		print(predicted_cast)
 		state = State.CAST
 	
 	elif event.is_action("space"):
@@ -42,25 +46,28 @@ func reel(event: InputEvent) -> void:
 		is_reeling = true
 	elif event.is_action_released("space"):
 		is_reeling = false
-		if position.y <= 0:
+		if position.y >= 0:
 			state = State.WINDUP
 			predicted_cast = -1
 
 
 func _physics_process(delta: float) -> void:
 	if state == State.CAST:
-		position.y = move_toward(position.y, predicted_cast + 0.01, cast_speed * delta)
-		label.text = "Current Depth: " + str(snappedf(position.y, 0.01))
+		position.y = move_toward(position.y, -(predicted_cast + 0.01), cast_speed * delta)
+		label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 		
-		if position.y >= predicted_cast:
+		if abs(position.y) >= predicted_cast:
 			state = State.REEL
 	
-	elif state == State.REEL and is_reeling:
-		position.y = move_toward(position.y, 0.0, cast_speed * delta)
-		label.text = "Current Depth: " + str(snappedf(position.y, 0.01))
+	elif state == State.REEL:
+		if is_reeling:
+			position = position.move_toward(Vector2.ZERO, cast_speed * delta)
+		elif velocity:
+			position = position.move_toward(velocity + position, nudge_speed * delta)
+		label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if state == State.WINDUP:
 		windup(event)
 	elif state == State.CAST:
