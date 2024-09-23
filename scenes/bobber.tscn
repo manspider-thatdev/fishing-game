@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://chhy74jwp0mhi"]
+
+[ext_resource type="Script" path="res://scripts/bobber.gd" id="1_4j1gh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ymqt8"]
+
+[node name="Bobber" type="CharacterBody2D"]
+script = ExtResource("1_4j1gh")
+cast_time = 5.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ymqt8")
+
+[node name="Camera" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Predicted Cast: 0.0"
+
+[node name="Timer" type="Timer" parent="."]
