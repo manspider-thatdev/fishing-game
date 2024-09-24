@@ -18,9 +18,6 @@ var predicted_cast: float = 0.0:
 	set(value):
 		predicted_cast = snappedf(value, 0.01)
 		label.text = "Predicted Cast: " + str(predicted_cast)
-var velocity: Vector2:
-	get:
-		return Input.get_vector("left", "right", "up", "down")
 var is_reeling: bool = false
 
 
@@ -38,7 +35,8 @@ func windup(event: InputEvent) -> void:
 
 
 func cast(event: InputEvent) -> void:
-	pass
+	if event.is_action_pressed("space"):
+		state = State.REEL
 
 
 func reel(event: InputEvent) -> void:
@@ -52,8 +50,12 @@ func reel(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	var velocity := Input.get_vector("left", "right", "up", "down")
+	
 	if state == State.CAST:
 		position.y = move_toward(position.y, -(predicted_cast + 0.01), cast_speed * delta)
+		position.x = move_toward(position.x, position.x + velocity.x, nudge_speed * delta)
+		
 		label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 		
 		if abs(position.y) >= predicted_cast:
