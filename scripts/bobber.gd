@@ -7,6 +7,7 @@ enum State { WINDUP, CAST, REEL }
 
 @export var cast_speed: float = 50.0
 @export var max_cast_distance: float = 250.0
+@export var max_extents: float = 30.0
 @export var cast_time: float = 2.0
 
 @export var nudge_speed: float = 20.0
@@ -58,7 +59,7 @@ func _physics_process(delta: float) -> void:
 		
 		label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 		
-		if abs(position.y) >= predicted_cast:
+		if absf(position.y) >= predicted_cast:
 			state = State.REEL
 	
 	elif state == State.REEL:
@@ -67,6 +68,8 @@ func _physics_process(delta: float) -> void:
 		elif velocity:
 			position = position.move_toward(velocity + position, nudge_speed * delta)
 		label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
+	
+	position = position.clamp(Vector2(-max_extents, -max_cast_distance), Vector2(max_extents, 0.0))
 
 
 func _unhandled_input(event: InputEvent) -> void:
