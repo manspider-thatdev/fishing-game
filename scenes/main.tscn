@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxns4l7xchmcv"]
+
+[ext_resource type="PackedScene" uid="uid://cjy642yatxidm" path="res://scenes/bobber.tscn" id="1_pr8x7"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Bobber" parent="." instance=ExtResource("1_pr8x7")]
