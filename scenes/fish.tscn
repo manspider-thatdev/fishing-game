@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://d0pr26bvwdmar"]
+
+[ext_resource type="Script" path="res://scripts/fish.gd" id="1_i6n2h"]
+[ext_resource type="Texture2D" uid="uid://du0do18imfgjb" path="res://assets/2d/fish/Fish2.png" id="1_lonme"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3hwkf"]
+radius = 17.0294
+
+[node name="Fish" type="Area2D"]
+position = Vector2(100, 100)
+script = ExtResource("1_i6n2h")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_lonme")
+offset = Vector2(-5, 16)
+
+[node name="LifespanT" type="Timer" parent="Sprite2D"]
+wait_time = 10.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3hwkf")
+
+[connection signal="timeout" from="Sprite2D/LifespanT" to="." method="_on_lifespan_t_timeout"]
