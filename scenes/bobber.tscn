@@ -1,15 +1,40 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjy642yatxidm"]
+[gd_scene load_steps=5 format=3 uid="uid://cjy642yatxidm"]
 
 [ext_resource type="Script" path="res://scripts/bobber.gd" id="1_4j1gh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ymqt8"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_sobid"]
+radius = 40.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o6hym"]
+radius = 80.0
+
 [node name="Bobber" type="Area2D"]
+collision_mask = 8
 script = ExtResource("1_4j1gh")
 cast_speed = 100.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ymqt8")
+
+[node name="NearBobber" type="Area2D" parent="."]
+z_index = -1
+collision_layer = 2
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NearBobber"]
+z_index = -2
+shape = SubResource("CircleShape2D_sobid")
+debug_color = Color(0.468833, 0.592133, 0.0505524, 0.396078)
+
+[node name="FarBobber" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FarBobber"]
+shape = SubResource("CircleShape2D_o6hym")
+debug_color = Color(0.818303, 0.405395, 0, 0.192157)
 
 [node name="Camera" type="Camera2D" parent="."]
 position_smoothing_enabled = true
