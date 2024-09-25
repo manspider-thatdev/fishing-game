@@ -4,6 +4,8 @@ enum State { WINDUP, CAST, REEL }
 
 @onready var timer: Timer = $Timer
 @onready var label: Label = $Label
+@onready var near_bobber: Area2D = $NearBobber
+@onready var far_bobber: Area2D = $FarBobber
 
 @export var cast_speed: float = 50.0
 @export var max_cast_distance: float = 250.0
@@ -14,7 +16,23 @@ enum State { WINDUP, CAST, REEL }
 
 @export var reel_speed: float = 50.0
 
-var state := State.WINDUP
+var state := State.WINDUP:
+	set(value):
+		state = value
+		if state == State.REEL:
+			monitoring = true
+			monitorable = true
+			near_bobber.monitoring = true
+			near_bobber.monitorable = true
+			far_bobber.monitoring = true
+			far_bobber.monitorable = true
+		else:
+			monitoring = false
+			monitorable = false
+			near_bobber.monitoring = false
+			near_bobber.monitorable = false
+			far_bobber.monitoring = false
+			far_bobber.monitorable = false
 var predicted_cast: float = 0.0: 
 	set(value):
 		predicted_cast = snappedf(value, 0.01)
