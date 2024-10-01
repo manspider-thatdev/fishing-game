@@ -13,10 +13,17 @@ script = ExtResource("1_i6n2h")
 texture = ExtResource("1_lonme")
 offset = Vector2(-5, 16)
 
-[node name="LifespanT" type="Timer" parent="Sprite2D"]
-wait_time = 10.0
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_3hwkf")
 
-[connection signal="timeout" from="Sprite2D/LifespanT" to="." method="_on_lifespan_t_timeout"]
+[node name="TargetPos" type="Marker2D" parent="."]
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="Lifespan" type="Timer" parent="Timers"]
+wait_time = 10.0
+
+[node name="Movement" type="Timer" parent="Timers"]
+
+[connection signal="timeout" from="Timers/Lifespan" to="." method="_on_lifespan_t_timeout"]
+[connection signal="timeout" from="Timers/Movement" to="." method="_on_move_t_timeout"]
