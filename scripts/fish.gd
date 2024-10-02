@@ -5,46 +5,80 @@ var rng := RandomNumberGenerator.new()
 @onready var screensize: Vector2 = get_viewport().get_visible_rect().size
 @onready var life_timer: Timer = $Timers/Lifespan
 @onready var move_timer: Timer = $Timers/Movement
-@onready var move_target: Marker2D = $TargetPos
+@onready var flee_timer: Timer = $Timers/Fleeing
+@onready var move_target: Node2D = $TargetPos # typed as Node2D to allow swapping for bobber later
 
-@export var lifespan: float = 30.0
-@export var move_wait: float = 4.0
+enum FishStates {ROAM, SEEK, HOOK, FLEE}
+var fish_state: FishStates = FishStates.ROAM
+
+@export var immortal: bool = false
+@export var lifespan: float = 60.0
+@export var move_wait: float = 3.0
 @export var move_speed: float = 40.0
-var moving: bool = false
-# probably need to set-up a mini state-machine
-# to differentiate between setting random targets for wandering
-# and when the fish is interested in the bobber
+@export var flee_wait: float = move_wait
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	move_target.position.x = rng.randf_range(0.0, screensize.x)
-	move_target.position.y = rng.randf_range(0.0, screensize.y)
-	life_timer.start(lifespan)
+	new_target()
 	move_timer.start(move_wait)
-	print(lifespan)
-	print(move_wait)
-	print(screensize)
-	pass # Replace with function body.
-
+	if !immortal:
+		life_timer.start(lifespan)
+		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if life_timer.time_left == 0:
+		if fish_state != FishStates.SEEK && fish_state != FishStates.HOOK:
+			queue_free()
+
+func set_target(pos: Vector2) -> void:
+	move_target.position = pos
+	
+func new_target() -> void:
+	var direction := Vector2(rng.randf_range(-1, 1), rng.randf_range(-1, 1))
+	var potential := move_wait * move_speed
+	var magnitude := rng.randf_range(0, potential) # adds variety by not always going max-distance
+	var tPos := direction * magnitude
+	# Out-of-bounds Checking/Handling
+	tPos.x *= -1 if (tPos.x < 0) else 1
+	tPos.y *= -1 if (tPos.y < 0) else 1
+	tPos.x = clampf(tPos.x, 0, screensize.x)
+	tPos.y = clampf(tPos.y, 0, screensize.y)
+	set_target(tPos)
 
 func _physics_process(delta: float) -> void:
-	var velocity := delta * move_speed
-	position.x = move_toward(position.x, move_target.position.x, velocity)
-	position.y = move_toward(position.y, move_target.position.y, velocity)
-	pass
+	match fish_state:
+		FishStates.HOOK: # Presumably do nothing while QTEs go off
+			pass
+		FishStates.ROAM:
+			var speed := delta * move_speed
+			position.x = move_toward(position.x, move_target.position.x, speed)
+			position.y = move_toward(position.y, move_target.position.y, speed)
+		FishStates.SEEK: # Pursuing the bobber actively
+			pass
+		FishStates.FLEE: # When startled, possibly tied to a signal from the bobber?
+			pass
 
 func _on_lifespan_t_timeout() -> void:
-	queue_free()
-	print("Fish says bye-bye!")
+	if immortal:
+		life_timer.start(lifespan)
+	elif fish_state != FishStates.SEEK && fish_state != FishStates.HOOK:
+		queue_free()
 
-# probably better to eventually change this to a circular area
-# around the fish so it seems more natural, instead of just
-# targeting random points on the entire screen lol
 func _on_move_t_timeout() -> void:
-	move_target.position.x = rng.randf_range(0.0, screensize.x)
-	move_target.position.y = rng.randf_range(0.0, screensize.y)
+	new_target()
 	print("Fish wants to move to:")
 	print(move_target.position)
+	
+func _on_fleeing_timeout() -> void:
+	new_target()
+	fish_state = FishStates.ROAM
+
+# Future Signals Probably
+func _on_catch() -> void: # When entering nearest bobber range and biting
+	fish_state = FishStates.HOOK
+func _on_bobber_move() -> void: # Check for Interest or Startle
+	if false:
+		fish_state = FishStates.SEEK
+	elif true:
+		fish_state = FishStates.FLEE
+		flee_timer.start(flee_wait)
