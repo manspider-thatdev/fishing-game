@@ -26,6 +26,6 @@ shape = SubResource("CircleShape2D_3hwkf")
 
 [node name="Fleeing" type="Timer" parent="Timers"]
 
-[connection signal="timeout" from="Timers/Lifespan" to="." method="_on_lifespan_t_timeout"]
-[connection signal="timeout" from="Timers/Movement" to="." method="_on_move_t_timeout"]
+[connection signal="timeout" from="Timers/Lifespan" to="." method="_on_lifespan_timeout"]
+[connection signal="timeout" from="Timers/Movement" to="." method="_on_move_timeout"]
 [connection signal="timeout" from="Timers/Fleeing" to="." method="_on_fleeing_timeout"]

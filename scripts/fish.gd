@@ -58,13 +58,13 @@ func _physics_process(delta: float) -> void:
 		FishStates.FLEE: # When startled, possibly tied to a signal from the bobber?
 			pass
 
-func _on_lifespan_t_timeout() -> void:
+func _on_lifespan_timeout() -> void:
 	if immortal:
 		life_timer.start(lifespan)
 	elif fish_state != FishStates.SEEK && fish_state != FishStates.HOOK:
 		queue_free()
 
-func _on_move_t_timeout() -> void:
+func _on_move_timeout() -> void:
 	new_target()
 	print("Fish wants to move to:")
 	print(move_target.position)
