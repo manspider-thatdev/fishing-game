@@ -29,7 +29,7 @@ var velocity := Vector2.ZERO
 var state := State.WINDING:
 	set(value):
 		state = value
-		if state == State.REELING:
+		if state == State.REELING || state == State.NUDGING:
 			monitoring = true
 			monitorable = true
 			near_bobber.monitoring = true
@@ -92,10 +92,12 @@ func reel(_delta: float) -> void:
 
 func nudge(delta: float) -> void:
 	velocity = velocity.move_toward(Vector2.ZERO, delta * nudge_friction)
-	if velocity == Vector2.ZERO:
+	if velocity == Vector2.ZERO or Input.is_action_pressed("space"):
 		state = State.REELING
-	if Input.is_action_pressed("space"):
-		state = State.REELING
+	else:
+		var near_fish: Array[Area2D] = near_bobber.get_overlapping_areas()
+		for fish: Area2D in far_bobber.get_overlapping_areas():
+			fish._on_bobber_move(near_fish.has(fish))
 	
 	label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 
@@ -115,3 +117,8 @@ func _physics_process(delta: float) -> void:
 	position += velocity * delta
 	
 	position = position.clamp(Vector2(-max_extents, -max_cast_distance), Vector2(max_extents, 0.0))
+	
+	if velocity != Vector2.ZERO:
+		if state == State.REELING:
+			for fish: Area2D in far_bobber.get_overlapping_areas():
+				fish._on_bobber_move(true)

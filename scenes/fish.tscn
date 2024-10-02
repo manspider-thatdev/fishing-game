@@ -7,6 +7,8 @@
 radius = 17.0294
 
 [node name="Fish" type="Area2D"]
+collision_layer = 8
+collision_mask = 7
 script = ExtResource("1_i6n2h")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

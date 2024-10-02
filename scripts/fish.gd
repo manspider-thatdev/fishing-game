@@ -76,9 +76,9 @@ func _on_fleeing_timeout() -> void:
 # Future Signals Probably
 func _on_catch() -> void: # When entering nearest bobber range and biting
 	fish_state = FishStates.HOOK
-func _on_bobber_move() -> void: # Check for Interest or Startle
-	if false:
+func _on_bobber_move(isScared: bool) -> void: # Check for Interest or Startle
+	if !isScared:
 		fish_state = FishStates.SEEK
-	elif true:
+	elif isScared:
 		fish_state = FishStates.FLEE
 		flee_timer.start(flee_wait)
