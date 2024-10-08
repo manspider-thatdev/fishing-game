@@ -10,6 +10,10 @@ radius = 17.0294
 collision_layer = 8
 collision_mask = 7
 script = ExtResource("1_i6n2h")
+immortal = null
+lifespan = null
+move_wait = null
+move_speed = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_lonme")
