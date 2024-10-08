@@ -13,17 +13,19 @@ var fish_state: FishStates = FishStates.ROAM
 
 @export var immortal: bool = false
 @export var lifespan: float = 60.0
-@export var move_wait: float = 3.0
+@export var time_until_move: float = 3.0
 @export var move_speed: float = 40.0
-@export var flee_wait: float = move_wait
+@export var flee_wait: float = time_until_move
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	new_target()
-	move_timer.start(move_wait)
-	if !immortal:
-		life_timer.start(lifespan)
-		
+	#move_timer.start(time_until_move)
+	#if !immortal:
+		#life_timer.start(lifespan)
+
+
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if life_timer.time_left == 0:
@@ -35,7 +37,7 @@ func set_target(pos: Vector2) -> void:
 	
 func new_target() -> void:
 	var direction := Vector2(rng.randf_range(-1, 1), rng.randf_range(-1, 1))
-	var potential := move_wait * move_speed
+	var potential := time_until_move * move_speed
 	var magnitude := rng.randf_range(0, potential) # adds variety by not always going max-distance
 	var tPos := direction * magnitude
 	# Out-of-bounds Checking/Handling
