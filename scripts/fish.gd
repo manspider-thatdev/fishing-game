@@ -22,15 +22,16 @@ func _ready() -> void:
 	new_target()
 
 # Sets the values of the fish instance. Will probably need more parameters when fish gets more complicated.
-func set_values(new_immortal: bool, new_lifespan: float, new_time_until_move: float, new_move_speed: float):
+func set_values(new_immortal: bool, new_lifespan: float, new_time_until_move: float, new_move_speed: float, new_position: Vector2):
 	is_immortal = new_immortal
 	lifespan = new_lifespan
 	time_until_move = new_time_until_move
 	move_speed = new_move_speed
+	position = new_position
 
 # Sets the values of teh fish instance and starts its timers.
-func set_initial_values(new_immortal: bool, new_lifespan: float, new_time_until_move: float, new_move_speed: float):
-	set_values(new_immortal, new_immortal, new_time_until_move, new_move_speed)
+func set_initial_values(new_immortal: bool, new_lifespan: float, new_time_until_move: float, new_move_speed: float, new_position: Vector2):
+	set_values(new_immortal, new_immortal, new_time_until_move, new_move_speed, new_position)
 	
 	move_timer.start(time_until_move)
 	if !is_immortal:
