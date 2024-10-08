@@ -20,9 +20,6 @@ var fish_state: FishStates = FishStates.ROAM
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	new_target()
-	#move_timer.start(time_until_move)
-	#if !immortal:
-		#life_timer.start(lifespan)
 
 # Sets the values of the fish instance. Will probably need more parameters when fish gets more complicated.
 func set_values(new_immortal: bool, new_lifespan: float, new_time_until_move: float, new_move_speed: float):
