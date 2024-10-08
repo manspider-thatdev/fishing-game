@@ -11,7 +11,7 @@ var rng := RandomNumberGenerator.new()
 enum FishStates {ROAM, SEEK, HOOK, FLEE}
 var fish_state: FishStates = FishStates.ROAM
 
-@export var immortal: bool = false
+@export var is_immortal: bool = false
 @export var lifespan: float = 60.0
 @export var time_until_move: float = 3.0
 @export var move_speed: float = 40.0
@@ -23,7 +23,7 @@ func _ready() -> void:
 
 # Sets the values of the fish instance. Will probably need more parameters when fish gets more complicated.
 func set_values(new_immortal: bool, new_lifespan: float, new_time_until_move: float, new_move_speed: float):
-	immortal = new_immortal
+	is_immortal = new_immortal
 	lifespan = new_lifespan
 	time_until_move = new_time_until_move
 	move_speed = new_move_speed
@@ -33,7 +33,7 @@ func set_initial_values(new_immortal: bool, new_lifespan: float, new_time_until_
 	set_values(new_immortal, new_immortal, new_time_until_move, new_move_speed)
 	
 	move_timer.start(time_until_move)
-	if !immortal:
+	if !is_immortal:
 		life_timer.start(lifespan)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -71,7 +71,7 @@ func _physics_process(delta: float) -> void:
 			pass
 
 func _on_lifespan_timeout() -> void:
-	if immortal:
+	if is_immortal:
 		life_timer.start(lifespan)
 	elif fish_state != FishStates.SEEK && fish_state != FishStates.HOOK:
 		queue_free()
