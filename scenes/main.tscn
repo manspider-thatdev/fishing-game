@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cjy642yatxidm" path="res://scenes/bobber.tscn" id="1_pr8x7"]
 [ext_resource type="Script" path="res://scripts/fish_parent.gd" id="2_wj0nw"]
-[ext_resource type="PackedScene" uid="uid://cwscpvynsuxme" path="res://scenes/ocean.tscn" id="3_3r3hx"]
+[ext_resource type="PackedScene" path="res://scenes/ocean.tscn" id="3_3r3hx"]
 
 [node name="Main" type="Node2D"]
 
@@ -11,7 +11,5 @@ collision_mask = 1
 
 [node name="FishParent" type="Node2D" parent="."]
 script = ExtResource("2_wj0nw")
-
-[node name="NextCheck" type="Timer" parent="FishParent"]
 
 [node name="Ocean" parent="." instance=ExtResource("3_3r3hx")]

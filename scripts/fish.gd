@@ -7,6 +7,7 @@ var rng := RandomNumberGenerator.new()
 @onready var move_timer: Timer = $Timers/Movement
 @onready var flee_timer: Timer = $Timers/Fleeing
 @onready var move_target: Node2D = $TargetPos # typed as Node2D to allow swapping for bobber later
+@onready var sprite: Sprite2D = $Sprite2D
 
 enum FishStates {ROAM, SEEK, HOOK, FLEE}
 var fish_state: FishStates = FishStates.ROAM
@@ -22,16 +23,17 @@ func _ready() -> void:
 	new_target()
 
 # Sets the values of the fish instance. Will probably need more parameters when fish gets more complicated.
-func set_values(new_immortal: bool, new_lifespan: float, new_time_until_move: float, new_move_speed: float, new_position: Vector2):
+func set_values(new_immortal: bool, new_lifespan: float, new_time_until_move: float, new_move_speed: float, new_position: Vector2, new_texture: Texture2D):
 	is_immortal = new_immortal
 	lifespan = new_lifespan
 	time_until_move = new_time_until_move
 	move_speed = new_move_speed
 	position = new_position
+	sprite.set_texture(new_texture)
 
-# Sets the values of teh fish instance and starts its timers.
-func set_initial_values(new_immortal: bool, new_lifespan: float, new_time_until_move: float, new_move_speed: float, new_position: Vector2):
-	set_values(new_immortal, new_immortal, new_time_until_move, new_move_speed, new_position)
+# Sets the values of the fish instance and starts its timers.
+func set_initial_values(new_immortal: bool, new_lifespan: float, new_time_until_move: float, new_move_speed: float, new_position: Vector2, new_texture: Texture2D):
+	set_values(new_immortal, new_immortal, new_time_until_move, new_move_speed, new_position, new_texture)
 	
 	move_timer.start(time_until_move)
 	if !is_immortal:
