@@ -31,7 +31,7 @@ func set_values(new_immortal: bool, new_lifespan: float, new_time_until_move: fl
 	position = new_position
 	sprite.set_texture(new_texture)
 
-# Sets the values of teh fish instance and starts its timers.
+# Sets the values of the fish instance and starts its timers.
 func set_initial_values(new_immortal: bool, new_lifespan: float, new_time_until_move: float, new_move_speed: float, new_position: Vector2, new_texture: Texture2D):
 	set_values(new_immortal, new_immortal, new_time_until_move, new_move_speed, new_position, new_texture)
 	
