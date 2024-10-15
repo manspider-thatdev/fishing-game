@@ -15,6 +15,7 @@ var chosen_dirs: Array[int] = [] # empty array to add RNG inputs
 
 @export var input_num: int = 4 # number of required inputs
 @export var time: float = 5.0
+@export var fail_value: float = 2.0 # TEMP, smth for the struggle-meter?
 
 func choose_inputs() -> void:
 	chosen_dirs.resize(input_num)
@@ -30,6 +31,7 @@ func make_display_text() -> String:
 
 func player_fail() -> void:
 	# idk pause the timer, restart the qte, etc.
+	# smth with a struggle meter?
 	pass
 
 # Called when the node enters the scene tree for the first time.
