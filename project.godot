@@ -57,3 +57,7 @@ up={
 2d_physics/layer_2="NearBobber"
 2d_physics/layer_3="FarBobber"
 2d_physics/layer_4="Fish"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=3

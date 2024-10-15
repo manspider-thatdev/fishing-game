@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://cwscpvynsuxme"]
+
+[sub_resource type="Gradient" id="Gradient_5r24k"]
+offsets = PackedFloat32Array(0, 0.690998, 0.717762, 0.79562, 0.819951, 1)
+colors = PackedColorArray(0.0955673, 0.503077, 0.888258, 1, 0.0941176, 0.501961, 0.890196, 1, 0.566752, 0.761807, 0.947485, 1, 0.568627, 0.760784, 0.94902, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_a7xg6"]
+noise_type = 2
+seed = 37
+frequency = 0.0898
+fractal_type = 2
+fractal_octaves = 1
+fractal_gain = 1.0
+fractal_weighted_strength = 0.54
+cellular_distance_function = 1
+cellular_jitter = 0.76
+cellular_return_type = 6
+domain_warp_enabled = true
+domain_warp_frequency = 0.001
+domain_warp_fractal_octaves = 10
+domain_warp_fractal_gain = 0.1
+metadata/_preview_in_3d_space_ = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_goh23"]
+in_3d_space = true
+generate_mipmaps = false
+seamless = true
+color_ramp = SubResource("Gradient_5r24k")
+noise = SubResource("FastNoiseLite_a7xg6")
+
+[node name="Ocean" type="Sprite2D"]
+z_index = -4096
+scale = Vector2(8, 8)
+texture = SubResource("NoiseTexture2D_goh23")
+hframes = 4
+vframes = 4
