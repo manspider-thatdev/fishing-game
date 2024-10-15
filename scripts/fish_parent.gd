@@ -27,7 +27,6 @@ func _process(delta: float) -> void:
 		if(get_child_count() < FISH_CAP):
 			spawn_fish()
 
-#TODO: Create a function that spawns fish.
 # Spawns a fish at a random location.
 func spawn_fish():
 	var new_fish = fish.instantiate()
