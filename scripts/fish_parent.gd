@@ -11,7 +11,7 @@ extends Node2D
 const FISH_CAP = 5
 const TIME_BETWEEN_CHECKS = 0.05
 
-@onready var generic_red_fish = load("res://assets/2d/fish/Fish2.png")
+@onready var generic_red_fish = load("res://assets/2d/placeholder fish/FishRed.png")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
