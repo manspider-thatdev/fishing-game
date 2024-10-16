@@ -37,7 +37,7 @@ func set_initial_values(new_immortal: bool, new_lifespan: float, new_time_until_
 	
 	move_timer.start(time_until_move)
 	if !is_immortal:
-		life_timer.start(lifespan)
+		life_timer.start(new_lifespan)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
