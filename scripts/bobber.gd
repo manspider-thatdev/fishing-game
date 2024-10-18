@@ -97,7 +97,7 @@ func nudge(delta: float) -> void:
 	else:
 		var near_fish: Array[Area2D] = near_bobber.get_overlapping_areas()
 		for fish: Area2D in far_bobber.get_overlapping_areas():
-			fish._on_bobber_move(near_fish.has(fish))
+			fish._on_bobber_move(self, near_fish.has(fish))
 	
 	label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 
@@ -121,4 +121,4 @@ func _physics_process(delta: float) -> void:
 	if velocity != Vector2.ZERO:
 		if state == State.REELING:
 			for fish: Area2D in far_bobber.get_overlapping_areas():
-				fish._on_bobber_move(true)
+				fish._on_bobber_move(self, true)
