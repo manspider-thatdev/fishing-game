@@ -6,11 +6,12 @@ var rng := RandomNumberGenerator.new()
 @onready var life_timer: Timer = $Timers/Lifespan
 @onready var move_timer: Timer = $Timers/Movement
 @onready var flee_timer: Timer = $Timers/Fleeing
-@onready var move_target: Node2D = $TargetPos # typed as Node2D to allow swapping for bobber later
+@onready var idle_target: Node2D = $TargetPos # typed as Node2D to allow swapping for bobber later
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var current_target: Node2D = idle_target
 var target_position:
 	get():
-		return move_target.position
+		return current_target.position
 
 enum FishStates {ROAM, SEEK, HOOK, FLEE}
 var fish_state: FishStates = FishStates.ROAM
@@ -53,7 +54,7 @@ func _process(delta: float) -> void:
 
 
 func set_target(pos: Vector2) -> void:
-	move_target.position = pos
+	idle_target.position = pos
 
 
 func new_target() -> void:
@@ -63,7 +64,7 @@ func new_target() -> void:
 	var t_pos := direction * magnitude
 	# Out-of-bounds Checking/Handling
 	t_pos = t_pos.clamp(Vector2.ZERO, screensize)
-	move_target.position = t_pos
+	idle_target.position = t_pos
 
 
 func _physics_process(delta: float) -> void:
@@ -88,12 +89,13 @@ func _on_lifespan_timeout() -> void:
 func _on_move_timeout() -> void:
 	new_target()
 	print("Fish wants to move to:")
-	print(move_target.position)
+	print(current_target.position)
 
 
 func _on_fleeing_timeout() -> void:
 	new_target()
 	fish_state = FishStates.ROAM
+	current_target = idle_target
 
 
 # Future Signals Probably
@@ -102,7 +104,7 @@ func _on_catch() -> void: # When entering nearest bobber range and biting
 
 
 func _on_bobber_move(bobber: Node2D, isScared: bool) -> void: # Check for Interest or Startle
-	move_target = bobber
+	current_target = bobber
 	if !isScared:
 		fish_state = FishStates.SEEK
 	elif isScared:
