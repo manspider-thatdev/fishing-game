@@ -16,7 +16,7 @@ var chosen_dirs: Array[int] = [] # empty array to add RNG inputs
 @export var input_num: int = 4 # number of required inputs
 @export var time: float = 5.0
 @export var fail_value: float = 2.0 # TEMP, smth for the struggle-meter?
-
+	
 func choose_inputs() -> void:
 	chosen_dirs.resize(input_num)
 	for n in input_num:
@@ -45,6 +45,7 @@ func _process(delta: float) -> void:
 	if chosen_dirs.size() == 0:
 		end_qte.emit(true)
 		queue_free()
+		print("QTE WIN!!!")
 		return
 		
 	input_label.text = make_display_text()
