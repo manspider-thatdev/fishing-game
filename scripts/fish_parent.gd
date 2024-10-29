@@ -31,5 +31,9 @@ func _process(delta: float) -> void:
 func spawn_fish():
 	var new_fish = fish.instantiate()
 	add_child(new_fish)
-	var initial_position: Vector2 = Vector2(random.randf_range(0, screen_size.x), random.randf_range(0, screen_size.y))
-	new_fish.set_initial_values(false, 60, 3, 40, initial_position, generic_red_fish)
+	new_fish.lifespan = 5
+	new_fish.time_until_move = 3
+	new_fish.move_speed = 40
+	new_fish.position = Vector2(random.randf_range(0, screen_size.x), random.randf_range(0, screen_size.y))
+	new_fish.sprite.set_texture(generic_red_fish)
+	new_fish.start_timers()

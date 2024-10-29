@@ -43,7 +43,7 @@ func set_initial_values(new_immortal: bool, new_lifespan: float, new_time_until_
 	
 	move_timer.start(time_until_move)
 	if !is_immortal:
-		life_timer.start(new_lifespan)
+		life_timer.start(lifespan)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -66,6 +66,10 @@ func new_target() -> void:
 	t_pos = t_pos.clamp(Vector2.ZERO, screensize)
 	idle_target.position = t_pos
 
+func start_timers() -> void:
+	move_timer.start(time_until_move)
+	if !is_immortal:
+		life_timer.start(lifespan)
 
 func _physics_process(delta: float) -> void:
 	match fish_state:
