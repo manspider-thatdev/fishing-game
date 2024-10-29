@@ -1,5 +1,18 @@
 extends Area2D
+class_name Fish
 
+enum FishStates {ROAM, SEEK, HOOK, FLEE}
+var fish_state: FishStates = FishStates.ROAM
+
+class FishData: # for instantiation
+	var is_immortal: bool = false
+	var lifespan: float = 60.0
+	var time_until_move: float = 3.0
+	var move_speed: float = 40.0
+	var flee_wait: float = time_until_move
+	var texture2D: Texture2D = preload("res://assets/2d/placeholder fish/FishRed.png")
+
+var fish_data: FishData
 var rng := RandomNumberGenerator.new()
 
 @onready var screensize: Vector2 = get_viewport().get_visible_rect().size
@@ -13,38 +26,21 @@ var target_position:
 	get():
 		return current_target.position
 
-enum FishStates {ROAM, SEEK, HOOK, FLEE}
-var fish_state: FishStates = FishStates.ROAM
-
-@export var is_immortal: bool = false
-@export var lifespan: float = 60.0
-@export var time_until_move: float = 3.0
-@export var move_speed: float = 40.0
-@export var flee_wait: float = time_until_move
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	sprite.texture = fish_data.texture2D
 	new_target()
+	move_timer.start(fish_data.time_until_move)
+	if fish_data.is_immortal == false:
+		life_timer.start(fish_data.lifespan)
 
-
-# Sets the values of the fish instance. Will probably need more parameters when fish gets more complicated.
-func set_values(new_immortal: bool, new_lifespan: float, new_time_until_move: float, new_move_speed: float, new_position: Vector2, new_texture: Texture2D):
-	is_immortal = new_immortal
-	lifespan = new_lifespan
-	time_until_move = new_time_until_move
-	move_speed = new_move_speed
+# Sets the values of the fish instance. Update the FishData class above for more needed parameters
+func set_values(new_position: Vector2, new_data: FishData = FishData.new()):
+	fish_data.is_immortal = new_data.is_immortal
+	fish_data.lifespan = new_data.lifespan
+	fish_data.time_until_move = new_data.time_until_move
+	fish_data.move_speed = new_data.move_speed
 	position = new_position
-	sprite.set_texture(new_texture)
-
-
-# Sets the values of the fish instance and starts its timers.
-func set_initial_values(new_immortal: bool, new_lifespan: float, new_time_until_move: float, new_move_speed: float, new_position: Vector2, new_texture: Texture2D):
-	set_values(new_immortal, new_lifespan, new_time_until_move, new_move_speed, new_position, new_texture)
-	
-	move_timer.start(time_until_move)
-	if !is_immortal:
-		life_timer.start(new_lifespan)
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -52,10 +48,8 @@ func _process(delta: float) -> void:
 		if fish_state != FishStates.SEEK && fish_state != FishStates.HOOK:
 			queue_free()
 
-
 func set_target(pos: Vector2) -> void:
 	idle_target.position = pos
-
 
 func new_target() -> void:
 	var direction := Vector2(rng.randf_range(-1, 1), rng.randf_range(-1, 1))
@@ -80,8 +74,8 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_lifespan_timeout() -> void:
-	if is_immortal:
-		life_timer.start(lifespan)
+	if fish_data.is_immortal:
+		life_timer.start(fish_data.lifespan)
 	elif fish_state != FishStates.SEEK && fish_state != FishStates.HOOK:
 		queue_free()
 
@@ -91,17 +85,14 @@ func _on_move_timeout() -> void:
 	print("Fish wants to move to:")
 	print(current_target.position)
 
-
 func _on_fleeing_timeout() -> void:
 	new_target()
 	fish_state = FishStates.ROAM
 	current_target = idle_target
 
-
 # Future Signals Probably
 func _on_catch() -> void: # When entering nearest bobber range and biting
 	fish_state = FishStates.HOOK
-
 
 func _on_bobber_move(bobber: Node2D, isScared: bool) -> void: # Check for Interest or Startle
 	current_target = bobber
@@ -109,4 +100,4 @@ func _on_bobber_move(bobber: Node2D, isScared: bool) -> void: # Check for Intere
 		fish_state = FishStates.SEEK
 	elif isScared:
 		fish_state = FishStates.FLEE
-		flee_timer.start(flee_wait)
+		flee_timer.start(fish_data.flee_wait)

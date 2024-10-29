@@ -36,6 +36,7 @@ func player_fail() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	rng.randomize()
 	choose_inputs()
 	timer.one_shot = true
 	timer.start(time)
