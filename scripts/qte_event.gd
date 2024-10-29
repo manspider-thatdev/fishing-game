@@ -23,11 +23,11 @@ func choose_inputs() -> void:
 		chosen_dirs[n] = rng.randi_range(0, 3) # see above enum
 		
 func make_display_text() -> String:
-	var retval: String = ""
+	var retstr: String = ""
 	for n in chosen_dirs.size():
-		retval += text_dirs[chosen_dirs[n]]
-		retval += " "
-	return retval
+		retstr += text_dirs[chosen_dirs[n]]
+		retstr += " "
+	return retstr
 
 func player_fail() -> void:
 	# idk pause the timer, restart the qte, etc.
