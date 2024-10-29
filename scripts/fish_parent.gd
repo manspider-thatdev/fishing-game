@@ -36,4 +36,5 @@ func spawn_fish():
 	new_fish.move_speed = 40
 	new_fish.position = Vector2(random.randf_range(0, screen_size.x), random.randf_range(0, screen_size.y))
 	new_fish.sprite.set_texture(generic_red_fish)
+	new_fish.is_immortal = false
 	new_fish.start_timers()

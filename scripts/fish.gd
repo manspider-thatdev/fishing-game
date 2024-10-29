@@ -68,8 +68,7 @@ func new_target() -> void:
 
 func start_timers() -> void:
 	move_timer.start(time_until_move)
-	if !is_immortal:
-		life_timer.start(lifespan)
+	life_timer.start(lifespan)
 
 func _physics_process(delta: float) -> void:
 	match fish_state:
@@ -84,9 +83,11 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_lifespan_timeout() -> void:
+	print("Attempting fish despawn")
 	if is_immortal:
 		life_timer.start(lifespan)
 	elif fish_state != FishStates.SEEK && fish_state != FishStates.HOOK:
+		print("Fish despawning")
 		queue_free()
 
 
