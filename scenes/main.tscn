@@ -1,15 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://cxns4l7xchmcv"]
+[gd_scene load_steps=10 format=3 uid="uid://cxns4l7xchmcv"]
 
 [ext_resource type="PackedScene" uid="uid://cjy642yatxidm" path="res://scenes/bobber.tscn" id="1_pr8x7"]
 [ext_resource type="Script" path="res://scripts/fish_parent.gd" id="2_wj0nw"]
 [ext_resource type="PackedScene" uid="uid://cwscpvynsuxme" path="res://scenes/ocean.tscn" id="3_3r3hx"]
+[ext_resource type="Script" path="res://scripts/fish_data.gd" id="3_trnot"]
+[ext_resource type="Resource" uid="uid://bmssy0lvpm8m4" path="res://assets/data/fish/red_fish_data.tres" id="4_xpbyi"]
+[ext_resource type="Resource" uid="uid://8ehmcud63353" path="res://assets/data/fish/blue_fish_data.tres" id="5_uvikw"]
+[ext_resource type="Resource" uid="uid://coxp52ggxwj3i" path="res://assets/data/fish/green_fish_data.tres" id="6_ybffd"]
+[ext_resource type="Resource" uid="uid://2ywgqrr8dymb" path="res://assets/data/fish/purple_fish_data.tres" id="7_42t70"]
+[ext_resource type="Resource" uid="uid://bglcqm51ufwp8" path="res://assets/data/fish/yellow_fish_data.tres" id="8_fer5s"]
 
 [node name="Main" type="Node2D"]
 
 [node name="Bobber" parent="." instance=ExtResource("1_pr8x7")]
 collision_mask = 1
 
-[node name="FishParent" type="Node2D" parent="."]
+[node name="FishParent" type="Node" parent="."]
 script = ExtResource("2_wj0nw")
+FishDatas = Array[ExtResource("3_trnot")]([ExtResource("4_xpbyi"), ExtResource("5_uvikw"), ExtResource("6_ybffd"), ExtResource("7_42t70"), ExtResource("8_fer5s")])
 
 [node name="Ocean" parent="." instance=ExtResource("3_3r3hx")]

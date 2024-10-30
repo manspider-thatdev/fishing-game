@@ -1,23 +1,56 @@
-[gd_scene load_steps=4 format=3 uid="uid://d0pr26bvwdmar"]
+[gd_scene load_steps=7 format=3 uid="uid://d0pr26bvwdmar"]
 
 [ext_resource type="Script" path="res://scripts/fish.gd" id="1_i6n2h"]
-[ext_resource type="Texture2D" uid="uid://du0do18imfgjb" path="res://assets/2d/placeholder fish/FishRed.png" id="1_lonme"]
+[ext_resource type="Texture2D" uid="uid://cj08u2bep1s1y" path="res://assets/2d/fish/FishRed.png" id="2_mw0ye"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3hwkf"]
 radius = 17.0294
+
+[sub_resource type="Animation" id="Animation_cam4x"]
+resource_name = "ROAM"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_6x275"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eitlv"]
+_data = {
+"RESET": SubResource("Animation_6x275"),
+"ROAM": SubResource("Animation_cam4x")
+}
 
 [node name="Fish" type="Area2D"]
 collision_layer = 8
 collision_mask = 7
 script = ExtResource("1_i6n2h")
-is_immortal = true
-lifespan = null
-time_until_move = null
-move_speed = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_lonme")
-offset = Vector2(-5, 16)
+texture = ExtResource("2_mw0ye")
+hframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_3hwkf")
@@ -31,6 +64,11 @@ shape = SubResource("CircleShape2D_3hwkf")
 [node name="Movement" type="Timer" parent="Timers"]
 
 [node name="Fleeing" type="Timer" parent="Timers"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_eitlv")
+}
 
 [connection signal="timeout" from="Timers/Lifespan" to="." method="_on_lifespan_timeout"]
 [connection signal="timeout" from="Timers/Movement" to="." method="_on_move_timeout"]
