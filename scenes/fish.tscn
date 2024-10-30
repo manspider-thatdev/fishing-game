@@ -8,7 +8,6 @@ radius = 17.0294
 
 [node name="Fish" type="Area2D"]
 collision_layer = 8
-collision_mask = 7
 script = ExtResource("1_i6n2h")
 is_immortal = true
 
@@ -23,12 +22,13 @@ shape = SubResource("CircleShape2D_3hwkf")
 
 [node name="Timers" type="Node" parent="."]
 
-[node name="Lifespan" type="Timer" parent="Timers"]
+[node name="LifeTimer" type="Timer" parent="Timers"]
 
-[node name="Movement" type="Timer" parent="Timers"]
+[node name="MoveTimer" type="Timer" parent="Timers"]
 
-[node name="Fleeing" type="Timer" parent="Timers"]
+[node name="FleeTimer" type="Timer" parent="Timers"]
 
-[connection signal="timeout" from="Timers/Lifespan" to="." method="_on_lifespan_timeout"]
-[connection signal="timeout" from="Timers/Movement" to="." method="_on_move_timeout"]
-[connection signal="timeout" from="Timers/Fleeing" to="." method="_on_fleeing_timeout"]
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="timeout" from="Timers/LifeTimer" to="." method="_on_lifespan_timeout"]
+[connection signal="timeout" from="Timers/MoveTimer" to="." method="_on_move_timeout"]
+[connection signal="timeout" from="Timers/FleeTimer" to="." method="_on_fleeing_timeout"]

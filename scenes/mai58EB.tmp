@@ -7,6 +7,11 @@
 [node name="Main" type="Node2D"]
 
 [node name="Bobber" parent="." instance=ExtResource("1_pr8x7")]
+collision_mask = 1
+max_cast_distance = 250.0
+cast_time = 2.0
+reel_speed = 50.0
+nudge_speed = 20.0
 
 [node name="FishParent" type="Node2D" parent="."]
 script = ExtResource("2_wj0nw")

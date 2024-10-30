@@ -53,3 +53,6 @@ offset_bottom = 23.0
 text = "Predicted Cast: 0.0"
 
 [node name="Timer" type="Timer" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_entered" from="FarBobber" to="." method="_on_bobber_range_area_entered"]

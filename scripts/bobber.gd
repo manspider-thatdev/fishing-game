@@ -5,6 +5,7 @@ enum State {
 	CASTING, 
 	REELING, 
 	NUDGING, 
+	CATCHING,
 }
 
 @onready var timer: Timer = $Timer
@@ -29,6 +30,7 @@ var velocity := Vector2.ZERO
 var state := State.WINDING:
 	set(value):
 		state = value
+		await get_tree().physics_frame
 		if state == State.REELING || state == State.NUDGING:
 			monitoring = true
 			monitorable = true
@@ -80,6 +82,7 @@ func reel(_delta: float) -> void:
 	velocity = Input.get_vector("left", "right", "up", "down") * nudge_speed
 	if velocity != Vector2.ZERO:
 		state = State.NUDGING
+		check_fish_nudge()
 	
 	if Input.is_action_pressed("space"):
 		velocity = -position.normalized() * reel_speed
@@ -94,12 +97,14 @@ func nudge(delta: float) -> void:
 	velocity = velocity.move_toward(Vector2.ZERO, delta * nudge_friction)
 	if velocity == Vector2.ZERO or Input.is_action_pressed("space"):
 		state = State.REELING
-	else:
-		var near_fish: Array[Area2D] = near_bobber.get_overlapping_areas()
-		for fish: Area2D in far_bobber.get_overlapping_areas():
-			fish._on_bobber_move(self, near_fish.has(fish))
 	
 	label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
+
+
+func check_fish_nudge() -> void:
+	var near_fish: Array[Area2D] = near_bobber.get_overlapping_areas()
+	for fish: Area2D in far_bobber.get_overlapping_areas():
+		fish._on_bobber_move(self, near_fish.has(fish))
 
 
 func _process(delta: float) -> void:
@@ -111,6 +116,9 @@ func _process(delta: float) -> void:
 		reel(delta)
 	elif state == State.NUDGING:
 		nudge(delta)
+	
+	if Input.is_physical_key_pressed(KEY_K):
+		print(get_overlapping_areas())
 
 
 func _physics_process(delta: float) -> void:
@@ -119,6 +127,15 @@ func _physics_process(delta: float) -> void:
 	position = position.clamp(Vector2(-max_extents, -max_cast_distance), Vector2(max_extents, 0.0))
 	
 	if velocity != Vector2.ZERO:
-		if state == State.REELING:
+		if state == State.REELING and far_bobber.monitoring:
+			await get_tree().physics_frame
 			for fish: Area2D in far_bobber.get_overlapping_areas():
 				fish._on_bobber_move(self, true)
+
+
+func _on_bobber_range_area_entered(area: Area2D) -> void:
+	area.attract(self)
+
+
+func _on_area_entered(_area: Area2D) -> void:
+	state = State.CATCHING

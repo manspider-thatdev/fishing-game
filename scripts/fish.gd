@@ -3,9 +3,9 @@ extends Area2D
 var rng := RandomNumberGenerator.new()
 
 @onready var screensize: Vector2 = get_viewport().get_visible_rect().size
-@onready var life_timer: Timer = $Timers/Lifespan
-@onready var move_timer: Timer = $Timers/Movement
-@onready var flee_timer: Timer = $Timers/Fleeing
+@onready var life_timer: Timer = $Timers/LifeTimer
+@onready var move_timer: Timer = $Timers/MoveTimer
+@onready var flee_timer: Timer = $Timers/FleeTimer
 @onready var idle_target: Node2D = $TargetPos # typed as Node2D to allow swapping for bobber later
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var current_target: Node2D = idle_target
@@ -14,7 +14,10 @@ var target_position:
 		return current_target.position
 
 enum FishStates {ROAM, SEEK, HOOK, FLEE}
-var fish_state: FishStates = FishStates.ROAM
+var fish_state: FishStates = FishStates.ROAM:
+	set(value):
+		print("Fsh is: " + FishStates.find_key(value))
+		fish_state = value
 
 @export var is_immortal: bool = false
 @export var lifespan: float = 60.0
@@ -25,12 +28,6 @@ var fish_state: FishStates = FishStates.ROAM
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	new_target()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	if life_timer.time_left == 0 and !is_immortal:
-		if fish_state != FishStates.SEEK && fish_state != FishStates.HOOK:
-			queue_free()
 
 
 func set_target(pos: Vector2) -> void:
@@ -43,8 +40,8 @@ func new_target() -> void:
 	var magnitude := rng.randf_range(0, potential) # adds variety by not always going max-distance
 	var t_pos := direction * magnitude
 	# Out-of-bounds Checking/Handling
-	t_pos = t_pos.clamp(Vector2.ZERO, screensize)
-	idle_target.position = t_pos
+	#t_pos = t_pos.clamp(Vector2.ZERO, screensize)
+	idle_target.position = t_pos + position
 
 func start_timers() -> void:
 	move_timer.start(time_until_move)
@@ -63,29 +60,20 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_lifespan_timeout() -> void:
-	print("Attempting fish despawn")
 	if is_immortal:
-		life_timer.start(lifespan)
+		return
 	elif fish_state != FishStates.SEEK && fish_state != FishStates.HOOK:
-		print("Fish despawning")
 		queue_free()
 
 
 func _on_move_timeout() -> void:
 	new_target()
-	print("Fish wants to move to:")
-	print(current_target.position)
 
 
 func _on_fleeing_timeout() -> void:
 	new_target()
 	fish_state = FishStates.ROAM
 	current_target = idle_target
-
-
-# Future Signals Probably
-func _on_catch() -> void: # When entering nearest bobber range and biting
-	fish_state = FishStates.HOOK
 
 
 func _on_bobber_move(bobber: Node2D, isScared: bool) -> void: # Check for Interest or Startle
@@ -95,3 +83,15 @@ func _on_bobber_move(bobber: Node2D, isScared: bool) -> void: # Check for Intere
 	elif isScared:
 		fish_state = FishStates.FLEE
 		flee_timer.start(flee_wait)
+
+
+func attract(bobber) -> void:
+	fish_state = FishStates.SEEK
+	current_target = bobber
+
+
+func _on_area_entered(area: Area2D) -> void: # When entering nearest bobber range and biting
+	fish_state = FishStates.HOOK
+	life_timer.stop()
+	await get_tree().physics_frame
+	reparent(area)
