@@ -17,6 +17,8 @@ var rng := RandomNumberGenerator.new()
 var target_position:
 	get():
 		sprite.flip_h = true if (current_target.position - position).x < 0 else false
+		if fish_state == FishStates.FLEE:
+			sprite.flip_h = !sprite.flip_h
 		return current_target.position
 
 # Update the FishData class in fish_data.gd to add more parameters
