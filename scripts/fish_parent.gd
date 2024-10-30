@@ -7,14 +7,9 @@ var fish_scene = preload("res://scenes/fish.tscn")
 @onready var time_since_last_check = 0;
 @onready var screensize: Vector2 = get_viewport().size
 
-# Potentially unnecessary since get_child_count() exists.
-#@onready var fish_count = 0
-
 # I changed these to exports for when we make new stages - Watson
 @export var FISH_CAP = 5
 @export var TIME_BETWEEN_CHECKS = 0.05
-
-# @onready var generic_red_fish = load("res://assets/2d/placeholder fish/FishRed.png")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
