@@ -29,6 +29,7 @@ func set_values(start_position: Vector2, data: FishData):
 	fish_data = data
 	position = start_position
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	assert(fish_data, "[fish_data] is null.")

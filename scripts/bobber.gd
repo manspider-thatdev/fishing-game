@@ -56,11 +56,9 @@ func windup(_delta: float) -> void:
 	if Input.is_action_just_pressed("space"):
 		timer.start(cast_time)
 		predicted_cast = 0
-	
 	elif Input.is_action_just_released("space"):
 		timer.stop()
 		state = State.CASTING
-	
 	elif Input.is_action_pressed("space"):
 		predicted_cast = pingpong(timer.time_left / (cast_time * 0.5), 1.0) * max_cast_distance
 
