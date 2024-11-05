@@ -6,6 +6,21 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_3hwkf"]
 radius = 17.0294
 
+[sub_resource type="Animation" id="Animation_6x275"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
 [sub_resource type="Animation" id="Animation_cam4x"]
 resource_name = "ROAM"
 length = 4.0
@@ -22,21 +37,6 @@ tracks/0/keys = {
 "values": [0, 1, 0, 1]
 }
 
-[sub_resource type="Animation" id="Animation_6x275"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eitlv"]
 _data = {
 "RESET": SubResource("Animation_6x275"),
@@ -45,7 +45,6 @@ _data = {
 
 [node name="Fish" type="Area2D"]
 collision_layer = 8
-collision_mask = 7
 script = ExtResource("1_i6n2h")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -59,17 +58,18 @@ shape = SubResource("CircleShape2D_3hwkf")
 
 [node name="Timers" type="Node" parent="."]
 
-[node name="Lifespan" type="Timer" parent="Timers"]
+[node name="LifeTimer" type="Timer" parent="Timers"]
 
-[node name="Movement" type="Timer" parent="Timers"]
+[node name="MoveTimer" type="Timer" parent="Timers"]
 
-[node name="Fleeing" type="Timer" parent="Timers"]
+[node name="FleeTimer" type="Timer" parent="Timers"]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_eitlv")
 }
 
-[connection signal="timeout" from="Timers/Lifespan" to="." method="_on_lifespan_timeout"]
-[connection signal="timeout" from="Timers/Movement" to="." method="_on_move_timeout"]
-[connection signal="timeout" from="Timers/Fleeing" to="." method="_on_fleeing_timeout"]
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="timeout" from="Timers/LifeTimer" to="." method="_on_lifespan_timeout"]
+[connection signal="timeout" from="Timers/MoveTimer" to="." method="_on_move_timeout"]
+[connection signal="timeout" from="Timers/FleeTimer" to="." method="_on_fleeing_timeout"]

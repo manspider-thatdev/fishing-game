@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cxns4l7xchmcv"]
+
+[ext_resource type="PackedScene" uid="uid://cjy642yatxidm" path="res://scenes/bobber.tscn" id="1_pr8x7"]
+[ext_resource type="Script" path="res://scripts/fish_parent.gd" id="2_wj0nw"]
+[ext_resource type="PackedScene" uid="uid://cwscpvynsuxme" path="res://scenes/ocean.tscn" id="3_3r3hx"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Bobber" parent="." instance=ExtResource("1_pr8x7")]
+collision_mask = 1
+max_cast_distance = 250.0
+cast_time = 2.0
+reel_speed = 50.0
+nudge_speed = 20.0
+
+[node name="FishParent" type="Node2D" parent="."]
+script = ExtResource("2_wj0nw")
+
+[node name="Ocean" parent="." instance=ExtResource("3_3r3hx")]
