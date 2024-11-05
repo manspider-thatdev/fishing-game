@@ -6,13 +6,13 @@
 script = ExtResource("1_nahoe")
 
 [node name="Timer" type="Timer" parent="."]
+one_shot = true
 
-[node name="Labels" type="Node" parent="."]
+[node name="Labels" type="Node2D" parent="."]
 
 [node name="Inputs" type="Label" parent="Labels"]
 offset_right = 56.0
 offset_bottom = 23.0
-text = "←↑→↓"
 
 [node name="Time" type="Label" parent="Labels"]
 offset_top = 25.0

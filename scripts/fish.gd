@@ -21,6 +21,8 @@ var target_position:
 		if fish_state == FishStates.FLEE:
 			sprite.flip_h = !sprite.flip_h
 		return current_target.position
+var is_immortal: bool = false
+
 
 # Update the FishData class in fish_data.gd to add more parameters
 func set_values(start_position: Vector2, data: FishData):
@@ -33,22 +35,22 @@ func _ready() -> void:
 	sprite.texture = fish_data.texture2D
 	new_idle_target()
 	move_timer.start(fish_data.time_until_move)
-	if fish_data.is_immortal == false:
+	if is_immortal == false:
 		life_timer.start(fish_data.lifespan)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	match fish_state:
 		FishStates.HOOK:
 			anim_player.play("ROAM", -1, 4)
 		FishStates.ROAM:
-			if life_timer.time_left == 0 and !fish_data.is_immortal:
+			if life_timer.time_left == 0 and !is_immortal:
 				queue_free()
 			anim_player.play("ROAM")
 		FishStates.SEEK:
 			anim_player.play("ROAM", -1, 1.25)
 		FishStates.FLEE:
-			if life_timer.time_left == 0 and !fish_data.is_immortal:
+			if life_timer.time_left == 0 and !is_immortal:
 				queue_free()
 			anim_player.play("ROAM", -1, 2)
 
@@ -86,7 +88,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_lifespan_timeout() -> void:
-	if fish_data.is_immortal:
+	if is_immortal:
 		life_timer.start(fish_data.lifespan)
 	elif fish_state != FishStates.SEEK and fish_state != FishStates.HOOK:
 		queue_free()
@@ -105,6 +107,7 @@ func _on_fleeing_timeout() -> void:
 # Bobber Interactions
 func _on_catch() -> void: # When entering nearest bobber range and biting
 	fish_state = FishStates.HOOK
+	is_immortal = true
 
 
 func _on_bobber_move(bobber: Node2D, isScared: bool) -> void: # Check for Interest or Startle

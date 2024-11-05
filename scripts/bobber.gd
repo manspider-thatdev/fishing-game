@@ -12,6 +12,7 @@ enum State {
 @onready var label: Label = $Label
 @onready var near_bobber: Area2D = $NearBobber
 @onready var far_bobber: Area2D = $FarBobber
+@onready var qte_event: Node2D = $QteEvent
 
 @export_group("Casting")
 @export var cast_speed := Vector2(25.0, 50.0)
@@ -137,5 +138,10 @@ func _on_bobber_range_area_entered(area: Area2D) -> void:
 	area.attract(self)
 
 
-func _on_area_entered(_area: Area2D) -> void:
+func _on_area_entered(fish: Area2D) -> void:
 	state = State.CATCHING
+	qte_event.choose_inputs(fish.fish_data.qte_size)
+
+
+func _on_qte_event_end_qte(_is_success: bool) -> void:
+	pass # Replace with function body.

@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cjy642yatxidm"]
+[gd_scene load_steps=6 format=3 uid="uid://cjy642yatxidm"]
 
 [ext_resource type="Script" path="res://scripts/bobber.gd" id="1_4j1gh"]
+[ext_resource type="PackedScene" uid="uid://ciayav6ll3p1" path="res://scenes/experimental/qte_event.tscn" id="2_1lpvm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ymqt8"]
 
@@ -48,11 +49,18 @@ debug_color = Color(0.818303, 0.405395, 0, 0.192157)
 position_smoothing_enabled = true
 
 [node name="Label" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 143.0
+grow_vertical = 0
 text = "Predicted Cast: 0.0"
 
 [node name="Timer" type="Timer" parent="."]
 
+[node name="QteEvent" parent="." instance=ExtResource("2_1lpvm")]
+
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_entered" from="FarBobber" to="." method="_on_bobber_range_area_entered"]
+[connection signal="end_qte" from="QteEvent" to="." method="_on_qte_event_end_qte"]

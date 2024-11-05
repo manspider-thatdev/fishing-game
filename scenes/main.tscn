@@ -17,5 +17,6 @@
 [node name="FishParent" type="Node" parent="."]
 script = ExtResource("2_wj0nw")
 FishDatas = Array[ExtResource("3_trnot")]([ExtResource("4_xpbyi"), ExtResource("5_uvikw"), ExtResource("6_ybffd"), ExtResource("7_42t70"), ExtResource("8_fer5s")])
+FISH_CAP = 20
 
 [node name="Ocean" parent="." instance=ExtResource("3_3r3hx")]
