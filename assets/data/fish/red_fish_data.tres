@@ -5,10 +5,10 @@
 
 [resource]
 script = ExtResource("1_pi6tm")
-is_immortal = false
 lifespan = 60.0
 time_until_move = 3.0
 move_speed = 40.0
 flee_wait = null
 texture2D = ExtResource("2_op2hr")
 anim_frames = 2
+qte_size = 4
