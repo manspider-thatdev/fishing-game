@@ -123,6 +123,8 @@ func catch(_delta: float) -> void:
 		state = State.REELING
 	label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 
+func _ready() -> void:
+	Globals.connect_bobber(self)
 
 func _process(delta: float) -> void:
 	if state == State.WINDING:

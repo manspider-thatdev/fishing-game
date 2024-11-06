@@ -8,3 +8,4 @@ class_name FishData
 @export var texture2D: Texture2D = preload("res://assets/2d/fish/FishRed.png")
 @export var anim_frames: int = 2
 @export var qte_size: int = 4
+@export var qte_time: float = 5.0
