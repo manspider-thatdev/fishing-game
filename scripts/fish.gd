@@ -50,6 +50,9 @@ func _process(_delta: float) -> void:
 			anim_player.play("ROAM")
 		FishStates.SEEK:
 			anim_player.play("ROAM", -1, 1.25)
+			if !current_target.monitoring:
+				fish_state = FishStates.ROAM
+				start_timers()
 		FishStates.FLEE:
 			if life_timer.time_left == 0 and !is_immortal:
 				queue_free()
@@ -89,9 +92,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_lifespan_timeout() -> void:
-	if is_immortal:
-		life_timer.start(fish_data.lifespan)
-	elif fish_state != FishStates.SEEK and fish_state != FishStates.HOOK:
+	if !is_immortal and fish_state != FishStates.SEEK and fish_state != FishStates.HOOK:
 		queue_free()
 
 
@@ -103,12 +104,6 @@ func _on_fleeing_timeout() -> void:
 	current_target = new_idle_target()
 	fish_state = FishStates.ROAM
 	move_timer.paused = false
-
-
-# Bobber Interactions
-func _on_catch() -> void: # When entering nearest bobber range and biting
-	fish_state = FishStates.HOOK
-	is_immortal = true
 
 
 func _on_bobber_move(bobber: Node2D, isScared: bool) -> void: # Check for Interest or Startle
@@ -129,5 +124,8 @@ func attract(bobber) -> void:
 func _on_area_entered(area: Area2D) -> void: # When entering nearest bobber range and biting
 	fish_state = FishStates.HOOK
 	life_timer.stop()
+	flee_timer.stop()
+	move_timer.stop()
+	is_immortal = true
 	await get_tree().physics_frame
 	reparent(area)

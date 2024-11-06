@@ -27,6 +27,11 @@ enum State {
 @export var nudge_speed: float = 20.0
 @export var nudge_friction: float = 15.0
 
+@export_group("Catching")
+@export var catch_speed: float = 50.0
+@export var drag_speed: float = 5.0
+@export var burst_time: float = 1.5
+
 var velocity := Vector2.ZERO
 var state := State.WINDING:
 	set(value):
@@ -50,6 +55,7 @@ var predicted_cast: float = 0.0:
 	set(value):
 		predicted_cast = snappedf(value, 0.01)
 		label.text = "Predicted Cast: " + str(predicted_cast)
+var fish: Fish = null
 
 
 func windup(_delta: float) -> void:
@@ -102,8 +108,20 @@ func nudge(delta: float) -> void:
 
 func check_fish_nudge() -> void:
 	var near_fish: Array[Area2D] = near_bobber.get_overlapping_areas()
-	for fish: Area2D in far_bobber.get_overlapping_areas():
-		fish._on_bobber_move(self, near_fish.has(fish))
+	for spotted_fish: Area2D in far_bobber.get_overlapping_areas():
+		spotted_fish._on_bobber_move(self, near_fish.has(spotted_fish))
+
+
+func catch(_delta: float) -> void:
+	if position.y >= 0:
+		position = Vector2.ZERO
+		state = State.WINDING
+		print("caught fish")
+		fish = null
+	elif fish == null or !is_ancestor_of(fish):
+		fish = null
+		state = State.REELING
+	label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 
 
 func _process(delta: float) -> void:
@@ -115,6 +133,8 @@ func _process(delta: float) -> void:
 		reel(delta)
 	elif state == State.NUDGING:
 		nudge(delta)
+	elif state == State.CATCHING:
+		catch(delta)
 	
 	if Input.is_physical_key_pressed(KEY_K):
 		print(get_overlapping_areas())
@@ -128,18 +148,26 @@ func _physics_process(delta: float) -> void:
 	if velocity != Vector2.ZERO:
 		if state == State.REELING and far_bobber.monitoring:
 			await get_tree().physics_frame
-			for fish: Area2D in far_bobber.get_overlapping_areas():
-				fish._on_bobber_move(self, true)
+			for spotted_fish: Area2D in far_bobber.get_overlapping_areas():
+				spotted_fish._on_bobber_move(self, true)
 
 
 func _on_bobber_range_area_entered(area: Area2D) -> void:
 	area.attract(self)
 
 
-func _on_area_entered(fish: Area2D) -> void:
+func _on_area_entered(reel_fish: Area2D) -> void:
 	state = State.CATCHING
+	velocity = position.normalized() * drag_speed
+	fish = reel_fish
 	qte_event.choose_inputs(fish.fish_data.qte_size)
 
 
-func _on_qte_event_end_qte(_is_success: bool) -> void:
-	pass # Replace with function body.
+func _on_qte_event_end_qte(is_success: bool) -> void:
+	if is_success:
+		var tween = get_tree().create_tween().set_trans(Tween.TRANS_EXPO)
+		velocity = -position.normalized() * catch_speed
+		tween.tween_property(self, "velocity", position.normalized() * drag_speed, burst_time)
+		await tween.finished
+		if state == State.CATCHING:
+			qte_event.choose_inputs(fish.fish_data.qte_size)
