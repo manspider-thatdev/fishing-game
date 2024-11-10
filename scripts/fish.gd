@@ -7,7 +7,7 @@ var fish_data: FishData = FishData.new() # see: fish_data.gd, usually should cha
 
 var rng := RandomNumberGenerator.new()
 
-@onready var screensize: Vector2 = get_viewport().get_visible_rect().size
+var swimming_rect: Rect2
 @onready var life_timer: Timer = $Timers/LifeTimer
 @onready var move_timer: Timer = $Timers/MoveTimer
 @onready var flee_timer: Timer = $Timers/FleeTimer
@@ -25,9 +25,10 @@ var is_immortal: bool = false
 
 
 # Update the FishData class in fish_data.gd to add more parameters
-func set_values(start_position: Vector2, data: FishData):
+func set_values(start_position: Vector2, data: FishData, swimming_area: Rect2):
 	fish_data = data
 	position = start_position
+	swimming_rect = swimming_area
 
 
 # Called when the node enters the scene tree for the first time.
@@ -53,6 +54,7 @@ func _process(_delta: float) -> void:
 			if !current_target.monitoring:
 				fish_state = FishStates.ROAM
 				start_timers()
+				current_target = new_idle_target()
 		FishStates.FLEE:
 			if life_timer.time_left == 0 and !is_immortal:
 				queue_free()
@@ -69,7 +71,7 @@ func new_idle_target() -> Node2D:
 	var magnitude := rng.randf_range(0, potential) # adds variety by not always going max-distance
 	var t_pos := direction * magnitude
 	# Out-of-bounds Checking/Handling
-	t_pos = t_pos.clamp(Vector2.ZERO, screensize)
+	t_pos = t_pos.clamp(swimming_rect.position, swimming_rect.end)
 	idle_target.position = t_pos + position
 	return idle_target
 
@@ -114,6 +116,11 @@ func _on_bobber_move(bobber: Node2D, isScared: bool) -> void: # Check for Intere
 		fish_state = FishStates.FLEE
 		move_timer.paused = true
 		flee_timer.start(fish_data.flee_wait)
+
+
+# Fish has been caught
+func on_catch() -> void:
+	queue_free()
 
 
 func attract(bobber) -> void:

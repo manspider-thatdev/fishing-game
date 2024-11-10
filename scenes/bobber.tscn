@@ -9,7 +9,7 @@
 radius = 40.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_o6hym"]
-radius = 150.0
+radius = 80.0
 
 [node name="Bobber" type="Area2D"]
 collision_mask = 8
@@ -22,6 +22,7 @@ nudge_friction = 20.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ymqt8")
+debug_color = Color(0.5, 0.14, 0.212, 0.419608)
 
 [node name="NearBobber" type="Area2D" parent="."]
 z_index = -1
@@ -31,6 +32,7 @@ monitoring = false
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NearBobber"]
+visible = false
 z_index = -2
 shape = SubResource("CircleShape2D_sobid")
 debug_color = Color(0.468833, 0.592133, 0.0505524, 0.396078)
@@ -42,6 +44,7 @@ monitoring = false
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FarBobber"]
+visible = false
 shape = SubResource("CircleShape2D_o6hym")
 debug_color = Color(0.818303, 0.405395, 0, 0.192157)
 
@@ -49,12 +52,16 @@ debug_color = Color(0.818303, 0.405395, 0, 0.192157)
 position_smoothing_enabled = true
 
 [node name="Label" type="Label" parent="."]
+z_index = 7
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_top = -23.0
 offset_right = 143.0
 grow_vertical = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
 text = "Predicted Cast: 0.0"
 
 [node name="Timer" type="Timer" parent="."]

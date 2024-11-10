@@ -9,15 +9,21 @@ script = ExtResource("1_nahoe")
 one_shot = true
 
 [node name="Labels" type="Node2D" parent="."]
-z_index = 4
+z_index = 7
 
 [node name="Inputs" type="Label" parent="Labels"]
 offset_right = 56.0
 offset_bottom = 23.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
 
 [node name="Time" type="Label" parent="Labels"]
 offset_top = 25.0
 offset_right = 40.0
 offset_bottom = 48.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

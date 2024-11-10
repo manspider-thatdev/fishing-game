@@ -13,14 +13,17 @@
 [node name="Main" type="Node2D"]
 
 [node name="Bobber" parent="." instance=ExtResource("1_pr8x7")]
-catch_speed = 100.0
+max_cast_distance = 600.0
+max_extents = 200.0
+catch_speed = 140.0
 drag_speed = 15.0
 burst_time = 3.0
 
-[node name="FishParent" type="Node" parent="."]
+[node name="FishParent" type="Node2D" parent="."]
 script = ExtResource("2_wj0nw")
 FishDatas = Array[ExtResource("3_trnot")]([ExtResource("4_xpbyi"), ExtResource("5_uvikw"), ExtResource("6_ybffd"), ExtResource("7_42t70"), ExtResource("8_fer5s")])
+spawn_area = Rect2(-300, -1200, 600, 1200)
 FISH_CAP = 20
 
 [node name="Ocean" parent="." instance=ExtResource("3_3r3hx")]
-visible = false
+position = Vector2(0, -600)

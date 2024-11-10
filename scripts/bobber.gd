@@ -56,6 +56,7 @@ var predicted_cast: float = 0.0:
 		predicted_cast = snappedf(value, 0.01)
 		label.text = "Predicted Cast: " + str(predicted_cast)
 var fish: Fish = null
+var qte_tween: Tween = null
 
 
 func windup(_delta: float) -> void:
@@ -115,11 +116,17 @@ func check_fish_nudge() -> void:
 func catch(_delta: float) -> void:
 	if position.y >= 0:
 		position = Vector2.ZERO
+		velocity = Vector2.ZERO
+		if qte_tween != null:
+			qte_tween.kill()
 		state = State.WINDING
-		print("caught fish")
+		fish.on_catch()
 		fish = null
 	elif fish == null or !is_ancestor_of(fish):
 		fish = null
+		velocity = Vector2.ZERO
+		if qte_tween != null:
+			qte_tween.kill()
 		state = State.REELING
 	label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 
@@ -167,9 +174,11 @@ func _on_area_entered(reel_fish: Area2D) -> void:
 
 func _on_qte_event_end_qte(is_success: bool) -> void:
 	if is_success:
-		var tween = get_tree().create_tween().set_trans(Tween.TRANS_EXPO)
+		qte_tween = get_tree().create_tween().set_trans(Tween.TRANS_EXPO)
 		velocity = -position.normalized() * catch_speed
-		tween.tween_property(self, "velocity", position.normalized() * drag_speed, burst_time)
-		await tween.finished
+		qte_tween.tween_property(self, "velocity", position.normalized() * drag_speed, burst_time)
+		await qte_tween.finished
 		if state == State.CATCHING:
 			qte_event.choose_inputs(fish.fish_data.qte_size)
+		else:
+			velocity = Vector2.ZERO

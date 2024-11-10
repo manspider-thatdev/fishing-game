@@ -5,9 +5,9 @@ var fish_scene = preload("res://scenes/fish.tscn")
 @export var FishDatas: Array[FishData] # add in editor UI
 
 @onready var time_since_last_check = 0;
-@onready var screensize: Vector2 = get_viewport().size
 
 # I changed these to exports for when we make new stages - Watson
+@export var spawn_area: Rect2
 @export var FISH_CAP = 5
 @export var TIME_BETWEEN_CHECKS = 0.05
 
@@ -29,6 +29,7 @@ func _process(delta: float) -> void:
 # Spawns a fish at a random location.
 func spawn_fish():
 	var new_fish = fish_scene.instantiate()
-	var pos := Vector2(rng.randf_range(-screensize.x, screensize.x), rng.randf_range(-screensize.y, screensize.y)) * 0.5
-	new_fish.set_values(pos, FishDatas.pick_random())
+	var pos := Vector2(rng.randf_range(spawn_area.position.x, spawn_area.end.x), 
+		rng.randf_range(spawn_area.position.y, spawn_area.end.y))
+	new_fish.set_values(pos, FishDatas.pick_random(), spawn_area)
 	add_child(new_fish)

@@ -52,6 +52,7 @@ texture = ExtResource("2_mw0ye")
 hframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_3hwkf")
 
 [node name="TargetPos" type="Marker2D" parent="."]
