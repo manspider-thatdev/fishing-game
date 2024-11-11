@@ -60,21 +60,18 @@ func _process(_delta: float) -> void:
 		Directions.LEFT:
 			if Input.is_action_just_pressed("left"):
 				chosen_dirs.pop_front()
-			else: player_fail()
 		Directions.RIGHT:
 			if Input.is_action_just_pressed("right"):
 				chosen_dirs.pop_front()
-			else: player_fail()
 		Directions.UP:
 			if Input.is_action_just_pressed("up"):
 				chosen_dirs.pop_front()
-			else: player_fail()
 		Directions.DOWN:
 			if Input.is_action_just_pressed("down"):
 				chosen_dirs.pop_front()
-			else: player_fail()
 
 
 func _on_timer_timeout() -> void:
 	end_qte.emit(false)
-	queue_free()
+	input_label.hide()
+	time_label.hide()

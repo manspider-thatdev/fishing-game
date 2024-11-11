@@ -182,3 +182,6 @@ func _on_qte_event_end_qte(is_success: bool) -> void:
 			qte_event.choose_inputs(fish.fish_data.qte_size)
 		else:
 			velocity = Vector2.ZERO
+	else:
+		fish.queue_free()
+		state = State.REELING
