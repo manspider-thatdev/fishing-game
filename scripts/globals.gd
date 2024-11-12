@@ -14,3 +14,11 @@ func _process(delta: float) -> void:
 
 func connect_bobber(bobber: Node2D):
 	pass
+
+func _on_bobber_win(fish: FishData):
+	SCORE += fish.qte_size
+	return
+
+func _on_bobber_lose(fish: FishData):
+	SCORE -= fish.qte_size
+	return

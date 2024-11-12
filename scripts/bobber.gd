@@ -9,8 +9,7 @@ enum State {
 }
 
 @onready var timer: Timer = $Timer
-@onready var predicted_cast_label: Label = $PredictedCastLabel
-@onready var score_label: Label = $ScoreLabel
+@onready var label: Label = $Label
 @onready var near_bobber: Area2D = $NearBobber
 @onready var far_bobber: Area2D = $FarBobber
 @onready var qte_event: Node2D = $QteEvent
@@ -32,9 +31,6 @@ enum State {
 @export var catch_speed: float = 50.0
 @export var drag_speed: float = 5.0
 @export var burst_time: float = 1.5
-
-signal win
-signal lose
 
 var velocity := Vector2.ZERO
 var state := State.WINDING:
@@ -58,7 +54,7 @@ var state := State.WINDING:
 var predicted_cast: float = 0.0: 
 	set(value):
 		predicted_cast = snappedf(value, 0.01)
-		predicted_cast_label.text = "Predicted Cast: " + str(predicted_cast)
+		label.text = "Predicted Cast: " + str(predicted_cast)
 var fish: Fish = null
 var qte_tween: Tween = null
 
@@ -81,7 +77,7 @@ func cast(_delta: float) -> void:
 	var sway: float = Input.get_axis("left", "right")
 	velocity = Vector2(cast_speed.x * sway, -cast_speed.y)
 	
-	predicted_cast_label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
+	label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 	
 	if absf(position.y) >= predicted_cast:
 		position.y = -predicted_cast
@@ -100,7 +96,7 @@ func reel(_delta: float) -> void:
 		state = State.WINDING
 		predicted_cast = -1
 	
-	predicted_cast_label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
+	label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 
 
 func nudge(delta: float) -> void:
@@ -108,7 +104,7 @@ func nudge(delta: float) -> void:
 	if velocity == Vector2.ZERO or Input.is_action_pressed("space"):
 		state = State.REELING
 	
-	predicted_cast_label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
+	label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 
 
 func check_fish_nudge() -> void:
@@ -124,7 +120,6 @@ func catch(_delta: float) -> void:
 		if qte_tween != null:
 			qte_tween.kill()
 		state = State.WINDING
-		win.emit(fish.fish_data.qte_size)
 		fish.on_catch()
 		fish = null
 	elif fish == null or !is_ancestor_of(fish):
@@ -133,7 +128,7 @@ func catch(_delta: float) -> void:
 		if qte_tween != null:
 			qte_tween.kill()
 		state = State.REELING
-	predicted_cast_label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
+	label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 
 func _ready() -> void:
 	Globals.connect_bobber(self)
@@ -188,10 +183,5 @@ func _on_qte_event_end_qte(is_success: bool) -> void:
 		else:
 			velocity = Vector2.ZERO
 	else:
-		lose.emit(fish.fish_data.qte_size)
 		fish.queue_free()
 		state = State.REELING
-
-
-func _on_score_changes() -> void:
-	score_label.text = "Score: " + str(get_parent().score)
