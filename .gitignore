@@ -2,3 +2,6 @@
 .godot/
 /android/
 .DS_store
+
+# IDEA project files
+.idea/
