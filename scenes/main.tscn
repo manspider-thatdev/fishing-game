@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://cxns4l7xchmcv"]
+[gd_scene load_steps=11 format=3 uid="uid://cxns4l7xchmcv"]
 
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_8sjr0"]
 [ext_resource type="PackedScene" uid="uid://cjy642yatxidm" path="res://scenes/bobber.tscn" id="1_pr8x7"]
 [ext_resource type="Script" path="res://scripts/fish_parent.gd" id="2_wj0nw"]
 [ext_resource type="PackedScene" uid="uid://cwscpvynsuxme" path="res://scenes/ocean.tscn" id="3_3r3hx"]
@@ -11,6 +12,7 @@
 [ext_resource type="Resource" uid="uid://bglcqm51ufwp8" path="res://assets/data/fish/yellow_fish_data.tres" id="8_fer5s"]
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_8sjr0")
 
 [node name="Bobber" parent="." instance=ExtResource("1_pr8x7")]
 max_cast_distance = 600.0
@@ -27,3 +29,7 @@ FISH_CAP = 20
 
 [node name="Ocean" parent="." instance=ExtResource("3_3r3hx")]
 position = Vector2(0, -600)
+
+[connection signal="score_changes" from="." to="Bobber" method="_on_score_changes"]
+[connection signal="lose" from="Bobber" to="." method="_on_bobber_lose"]
+[connection signal="win" from="Bobber" to="." method="_on_bobber_win"]
