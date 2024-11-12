@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cj08u2bep1s1y" path="res://assets/2d/fish/FishRed.png" id="2_mw0ye"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3hwkf"]
-radius = 17.0294
+radius = 14.0
 
 [sub_resource type="Animation" id="Animation_6x275"]
 length = 0.001
@@ -52,7 +52,6 @@ texture = ExtResource("2_mw0ye")
 hframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CircleShape2D_3hwkf")
 
 [node name="TargetPos" type="Marker2D" parent="."]

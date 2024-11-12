@@ -13,6 +13,7 @@ enum State {
 @onready var near_bobber: Area2D = $NearBobber
 @onready var far_bobber: Area2D = $FarBobber
 @onready var qte_event: Node2D = $QteEvent
+@onready var anim_player: AnimationPlayer = $AnimationPlayer
 
 @export_group("Casting")
 @export var cast_speed := Vector2(25.0, 50.0)
@@ -66,6 +67,7 @@ func windup(_delta: float) -> void:
 	elif Input.is_action_just_released("space"):
 		timer.stop()
 		state = State.CASTING
+		anim_player.play("AIR")
 	elif Input.is_action_pressed("space"):
 		predicted_cast = pingpong(timer.time_left / (cast_time * 0.5), 1.0) * max_cast_distance
 
@@ -73,6 +75,7 @@ func windup(_delta: float) -> void:
 func cast(_delta: float) -> void:
 	if Input.is_action_just_pressed("space"):
 		state = State.REELING
+		anim_player.play("IDLE")
 	
 	var sway: float = Input.get_axis("left", "right")
 	velocity = Vector2(cast_speed.x * sway, -cast_speed.y)
@@ -82,6 +85,7 @@ func cast(_delta: float) -> void:
 	if absf(position.y) >= predicted_cast:
 		position.y = -predicted_cast
 		state = State.REELING
+		anim_player.play("IDLE")
 
 
 func reel(_delta: float) -> void:
@@ -89,6 +93,7 @@ func reel(_delta: float) -> void:
 	if velocity != Vector2.ZERO:
 		state = State.NUDGING
 		check_fish_nudge()
+		play_nudge_animation(velocity)
 	
 	if Input.is_action_pressed("space"):
 		velocity = -position.normalized() * reel_speed
@@ -113,6 +118,18 @@ func check_fish_nudge() -> void:
 		spotted_fish._on_bobber_move(self, near_fish.has(spotted_fish))
 
 
+func play_nudge_animation(direction: Vector2) -> void:
+	if direction.x > 0:
+		anim_player.play("RIGHT")
+	elif direction.x < 0:
+		anim_player.play("LEFT")
+	elif direction.y > 0:
+		anim_player.play("DOWN")
+	else:
+		anim_player.play("UP")
+	anim_player.queue("IDLE")
+
+
 func catch(_delta: float) -> void:
 	if position.y >= 0:
 		position = Vector2.ZERO
@@ -120,6 +137,7 @@ func catch(_delta: float) -> void:
 		if qte_tween != null:
 			qte_tween.kill()
 		state = State.WINDING
+		anim_player.play("IDLE")
 		fish.on_catch()
 		fish = null
 	elif fish == null or !is_ancestor_of(fish):
@@ -128,6 +146,7 @@ func catch(_delta: float) -> void:
 		if qte_tween != null:
 			qte_tween.kill()
 		state = State.REELING
+		anim_player.play("IDLE")
 	label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 
 func _ready() -> void:
@@ -167,6 +186,7 @@ func _on_bobber_range_area_entered(area: Area2D) -> void:
 
 func _on_area_entered(reel_fish: Area2D) -> void:
 	state = State.CATCHING
+	anim_player.play("REEL")
 	velocity = position.normalized() * drag_speed
 	fish = reel_fish
 	qte_event.choose_inputs(fish.fish_data.qte_size)
@@ -185,3 +205,4 @@ func _on_qte_event_end_qte(is_success: bool) -> void:
 	else:
 		fish.queue_free()
 		state = State.REELING
+		anim_player.play("IDLE")
