@@ -95,6 +95,7 @@ func reel(_delta: float) -> void:
 	if velocity != Vector2.ZERO:
 		state = State.NUDGING
 		check_fish_nudge()
+		play_nudge_animation(velocity)
 	
 	if Input.is_action_pressed("space"):
 		velocity = -position.normalized() * reel_speed
@@ -113,6 +114,18 @@ func check_fish_nudge() -> void:
 	var near_fish: Array[Area2D] = near_bobber.get_overlapping_areas()
 	for spotted_fish: Area2D in far_bobber.get_overlapping_areas():
 		spotted_fish._on_bobber_move(self, near_fish.has(spotted_fish))
+
+
+func play_nudge_animation(direction: Vector2) -> void:
+	if direction.x > 0:
+		anim_player.play("RIGHT")
+	elif direction.x < 0:
+		anim_player.play("LEFT")
+	elif direction.y > 0:
+		anim_player.play("DOWN")
+	else:
+		anim_player.play("UP")
+	anim_player.queue("IDLE")
 
 
 func catch(_delta: float) -> void:
@@ -172,6 +185,7 @@ func _on_bobber_range_area_entered(area: Area2D) -> void:
 
 func _on_area_entered(reel_fish: Area2D) -> void:
 	state = State.CATCHING
+	anim_player.play("REEL")
 	velocity = position.normalized() * drag_speed
 	fish = reel_fish
 	qte_event.choose_inputs(fish.fish_data.qte_size)
