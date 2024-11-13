@@ -1,8 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://cjy642yatxidm"]
+[gd_scene load_steps=18 format=3 uid="uid://cjy642yatxidm"]
 
 [ext_resource type="Script" path="res://scripts/bobber.gd" id="1_4j1gh"]
 [ext_resource type="PackedScene" uid="uid://ciayav6ll3p1" path="res://scenes/experimental/qte_event.tscn" id="2_1lpvm"]
-[ext_resource type="Texture2D" uid="uid://rf5txiemy423" path="res://assets/2d/bobber/Bobber.png" id="3_eou60"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ymqt8"]
 radius = 8.0
@@ -13,124 +12,6 @@ radius = 40.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_o6hym"]
 radius = 80.0
 
-[sub_resource type="Animation" id="Animation_m6b7w"]
-resource_name = "IDLE"
-length = 0.8
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 1]
-}
-
-[sub_resource type="Animation" id="Animation_r0sra"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
-[sub_resource type="Animation" id="Animation_bdrbk"]
-resource_name = "LEFT"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [5, 6, 7]
-}
-
-[sub_resource type="Animation" id="Animation_55nge"]
-resource_name = "RIGHT"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [15, 16, 17]
-}
-
-[sub_resource type="Animation" id="Animation_daj1q"]
-resource_name = "UP"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [10, 11, 12]
-}
-
-[sub_resource type="Animation" id="Animation_s8sq2"]
-resource_name = "DOWN"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [10, 1, 2]
-}
-
-[sub_resource type="Animation" id="Animation_aowu4"]
-resource_name = "AIR"
-length = 0.8
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [20, 21, 22, 23]
-}
-
-[sub_resource type="Animation" id="Animation_8t5ny"]
-resource_name = "REEL"
-length = 0.8
-loop_mode = 1
-tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:frame")
@@ -155,6 +36,35 @@ _data = {
 "UP": SubResource("Animation_daj1q")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8huc3"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.67, 0.4556, 0.268, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.483785, 0.300799, 0.135365, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ab8m8"]
+bg_color = Color(0.463867, 0.71, 0.3408, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
 [node name="Bobber" type="Area2D"]
 collision_mask = 8
 monitoring = false
@@ -162,11 +72,9 @@ monitorable = false
 script = ExtResource("1_4j1gh")
 cast_speed = Vector2(25, 80)
 max_extents = 100.0
-nudge_speed = 60.0
-nudge_friction = 100.0
+nudge_friction = 20.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CircleShape2D_ymqt8")
 debug_color = Color(0.5, 0.14, 0.212, 0.419608)
 
@@ -197,27 +105,27 @@ debug_color = Color(0.818303, 0.405395, 0, 0.192157)
 [node name="Camera" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 
-
-[node name="Label" type="Label" parent="."]
+[node name="CastBar" type="ProgressBar" parent="."]
 visible = false
 z_index = 7
-anchors_preset = 2
+custom_minimum_size = Vector2(128, 16)
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_top = -23.0
-offset_right = 143.0
+offset_left = -64.0
+offset_top = -24.0
+offset_right = 64.0
+offset_bottom = -8.0
+grow_horizontal = 2
 grow_vertical = 0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 20
-text = "Predicted Cast: 0.0"
-
-[node name="ScoreLabel" type="Label" parent="."]
-offset_left = -500.0
-offset_top = -300.0
-offset_right = -439.0
-offset_bottom = -277.0
-text = "Score: 0"
+theme_override_styles/background = SubResource("StyleBoxFlat_8huc3")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ab8m8")
+rounded = true
+show_percentage = false
 
 [node name="Timer" type="Timer" parent="."]
 
