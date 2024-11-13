@@ -10,9 +10,11 @@ enum State {
 
 @onready var timer: Timer = $Timer
 @onready var cast_bar: ProgressBar = $CastBar
+@onready var score_label: Label = $ScoreLabel
 @onready var near_bobber: Area2D = $NearBobber
 @onready var far_bobber: Area2D = $FarBobber
 @onready var qte_event: Node2D = $QteEvent
+@onready var anim_player: AnimationPlayer = $AnimationPlayer
 
 @export_group("Casting")
 @export var cast_speed := Vector2(25.0, 50.0)
@@ -117,6 +119,8 @@ func catch(_delta: float) -> void:
 		if qte_tween != null:
 			qte_tween.kill()
 		state = State.WINDING
+		anim_player.play("IDLE")
+		win.emit(fish.fish_data.qte_size)
 		fish.on_catch()
 		fish = null
 	elif fish == null or !is_ancestor_of(fish):
@@ -183,3 +187,8 @@ func _on_qte_event_end_qte(is_success: bool) -> void:
 	else:
 		fish.queue_free()
 		state = State.REELING
+		anim_player.play("IDLE")
+
+
+func _on_score_changes() -> void:
+	score_label.text = "Score: " + str(get_parent().score)
