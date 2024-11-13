@@ -34,6 +34,9 @@ enum State {
 @export var drag_speed: float = 5.0
 @export var burst_time: float = 1.5
 
+signal win
+signal lose
+
 var velocity := Vector2.ZERO
 var state := State.WINDING:
 	set(value):
