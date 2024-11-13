@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cjy642yatxidm"]
+[gd_scene load_steps=18 format=3 uid="uid://cjy642yatxidm"]
 
 [ext_resource type="Script" path="res://scripts/bobber.gd" id="1_4j1gh"]
 [ext_resource type="PackedScene" uid="uid://ciayav6ll3p1" path="res://scenes/experimental/qte_event.tscn" id="2_1lpvm"]
@@ -11,6 +11,30 @@ radius = 40.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_o6hym"]
 radius = 80.0
+
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [25, 26, 27, 28]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_57fqe"]
+_data = {
+"AIR": SubResource("Animation_aowu4"),
+"DOWN": SubResource("Animation_s8sq2"),
+"IDLE": SubResource("Animation_m6b7w"),
+"LEFT": SubResource("Animation_bdrbk"),
+"REEL": SubResource("Animation_8t5ny"),
+"RESET": SubResource("Animation_r0sra"),
+"RIGHT": SubResource("Animation_55nge"),
+"UP": SubResource("Animation_daj1q")
+}
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8huc3"]
 content_margin_left = 4.0
@@ -106,6 +130,17 @@ show_percentage = false
 [node name="Timer" type="Timer" parent="."]
 
 [node name="QteEvent" parent="." instance=ExtResource("2_1lpvm")]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_eou60")
+hframes = 5
+vframes = 7
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_57fqe")
+}
+autoplay = "IDLE"
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_entered" from="FarBobber" to="." method="_on_bobber_range_area_entered"]

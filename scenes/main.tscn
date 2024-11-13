@@ -13,8 +13,8 @@
 [node name="Main" type="Node2D"]
 
 [node name="Bobber" parent="." instance=ExtResource("1_pr8x7")]
-max_cast_distance = 600.0
 max_extents = 200.0
+max_cast_distance = 600.0
 catch_speed = 140.0
 drag_speed = 15.0
 burst_time = 3.0
