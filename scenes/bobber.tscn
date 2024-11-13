@@ -1,15 +1,149 @@
-[gd_scene load_steps=6 format=3 uid="uid://cjy642yatxidm"]
+[gd_scene load_steps=16 format=3 uid="uid://cjy642yatxidm"]
 
 [ext_resource type="Script" path="res://scripts/bobber.gd" id="1_4j1gh"]
 [ext_resource type="PackedScene" uid="uid://ciayav6ll3p1" path="res://scenes/experimental/qte_event.tscn" id="2_1lpvm"]
+[ext_resource type="Texture2D" uid="uid://rf5txiemy423" path="res://assets/2d/bobber/Bobber.png" id="3_eou60"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ymqt8"]
+radius = 8.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sobid"]
 radius = 40.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_o6hym"]
 radius = 80.0
+
+[sub_resource type="Animation" id="Animation_a551h"]
+resource_name = "IDLE"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0666667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_wvr2y"]
+resource_name = "RIGHT"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0666667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_arbai"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_cvi61"]
+resource_name = "LEFT"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0666667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_66qme"]
+resource_name = "UP"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0666667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_3qmlj"]
+resource_name = "DOWN"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0666667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_ef7x8"]
+resource_name = "REEL"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0666667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_frljm"]
+resource_name = "AIR"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0666667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5hjmv"]
+_data = {
+"AIR": SubResource("Animation_frljm"),
+"DOWN": SubResource("Animation_3qmlj"),
+"IDLE": SubResource("Animation_a551h"),
+"LEFT": SubResource("Animation_cvi61"),
+"REEL": SubResource("Animation_ef7x8"),
+"RESET": SubResource("Animation_arbai"),
+"RIGHT": SubResource("Animation_wvr2y"),
+"UP": SubResource("Animation_66qme")
+}
 
 [node name="Bobber" type="Area2D"]
 collision_mask = 8
@@ -51,19 +185,6 @@ debug_color = Color(0.818303, 0.405395, 0, 0.192157)
 [node name="Camera" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 
-[node name="PredictedCastLabel" type="Label" parent="."]
-z_index = 7
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -23.0
-offset_right = 143.0
-grow_vertical = 0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
-text = "Predicted Cast: 0.0"
-
 [node name="ScoreLabel" type="Label" parent="."]
 offset_left = -500.0
 offset_top = -300.0
@@ -74,6 +195,16 @@ text = "Score: 0"
 [node name="Timer" type="Timer" parent="."]
 
 [node name="QteEvent" parent="." instance=ExtResource("2_1lpvm")]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_eou60")
+hframes = 5
+vframes = 7
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5hjmv")
+}
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_entered" from="FarBobber" to="." method="_on_bobber_range_area_entered"]
