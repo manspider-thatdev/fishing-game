@@ -9,7 +9,7 @@ enum State {
 }
 
 @onready var timer: Timer = $Timer
-@onready var label: Label = $Label
+@onready var cast_bar: ProgressBar = $CastBar
 @onready var near_bobber: Area2D = $NearBobber
 @onready var far_bobber: Area2D = $FarBobber
 @onready var qte_event: Node2D = $QteEvent
@@ -54,7 +54,6 @@ var state := State.WINDING:
 var predicted_cast: float = 0.0: 
 	set(value):
 		predicted_cast = snappedf(value, 0.01)
-		label.text = "Predicted Cast: " + str(predicted_cast)
 var fish: Fish = null
 var qte_tween: Tween = null
 
@@ -63,11 +62,15 @@ func windup(_delta: float) -> void:
 	if Input.is_action_just_pressed("space"):
 		timer.start(cast_time)
 		predicted_cast = 0
+		cast_bar.show()
 	elif Input.is_action_just_released("space"):
 		timer.stop()
 		state = State.CASTING
+		anim_player.play("AIR")
+		cast_bar.hide()
 	elif Input.is_action_pressed("space"):
 		predicted_cast = pingpong(timer.time_left / (cast_time * 0.5), 1.0) * max_cast_distance
+		cast_bar.value = predicted_cast
 
 
 func cast(_delta: float) -> void:
@@ -76,8 +79,6 @@ func cast(_delta: float) -> void:
 	
 	var sway: float = Input.get_axis("left", "right")
 	velocity = Vector2(cast_speed.x * sway, -cast_speed.y)
-	
-	label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 	
 	if absf(position.y) >= predicted_cast:
 		position.y = -predicted_cast
@@ -95,16 +96,12 @@ func reel(_delta: float) -> void:
 	elif position.y >= 0 and Input.is_action_just_released("space"):
 		state = State.WINDING
 		predicted_cast = -1
-	
-	label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 
 
 func nudge(delta: float) -> void:
 	velocity = velocity.move_toward(Vector2.ZERO, delta * nudge_friction)
 	if velocity == Vector2.ZERO or Input.is_action_pressed("space"):
 		state = State.REELING
-	
-	label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
 
 
 func check_fish_nudge() -> void:
@@ -128,10 +125,11 @@ func catch(_delta: float) -> void:
 		if qte_tween != null:
 			qte_tween.kill()
 		state = State.REELING
-	label.text = "Current Depth: " + str(position.snapped(Vector2.ONE * 0.01))
+		anim_player.play("IDLE")
 
 func _ready() -> void:
 	Globals.connect_bobber(self)
+	cast_bar.max_value = max_cast_distance
 
 func _process(delta: float) -> void:
 	if state == State.WINDING:
