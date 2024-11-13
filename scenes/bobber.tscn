@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cjy642yatxidm"]
+[gd_scene load_steps=18 format=3 uid="uid://cjy642yatxidm"]
 
 [ext_resource type="Script" path="res://scripts/bobber.gd" id="1_4j1gh"]
 [ext_resource type="PackedScene" uid="uid://ciayav6ll3p1" path="res://scenes/experimental/qte_event.tscn" id="2_1lpvm"]
@@ -12,6 +12,35 @@ radius = 40.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_o6hym"]
 radius = 80.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8huc3"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.67, 0.4556, 0.268, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.483785, 0.300799, 0.135365, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ab8m8"]
+bg_color = Color(0.463867, 0.71, 0.3408, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
 
 [sub_resource type="Animation" id="Animation_aowu4"]
 resource_name = "AIR"
@@ -203,6 +232,28 @@ offset_top = -300.0
 offset_right = -439.0
 offset_bottom = -277.0
 text = "Score: 0"
+
+[node name="CastBar" type="ProgressBar" parent="."]
+visible = false
+z_index = 7
+custom_minimum_size = Vector2(128, 16)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -24.0
+offset_right = 64.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 20
+theme_override_styles/background = SubResource("StyleBoxFlat_8huc3")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ab8m8")
+rounded = true
+show_percentage = false
 
 [node name="Timer" type="Timer" parent="."]
 
