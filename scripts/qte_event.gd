@@ -37,10 +37,37 @@ func make_display_text() -> String:
 
 
 func player_fail() -> void:
-	# idk pause the timer, restart the qte, etc.
-	# smth with a struggle meter?
-	pass
+	chosen_dirs.push_back(rng.randi_range(0, 3))
+	input_label.text = make_display_text()
 
+
+var prior_event: InputEvent = null
+func _input(event: InputEvent) -> void:
+	if timer.time_left == 0: return
+	
+	match chosen_dirs[0]:
+		Directions.LEFT:
+			if event.is_action_pressed("left"):
+				chosen_dirs.pop_front()
+				prior_event = event
+		Directions.RIGHT:
+			if event.is_action_pressed("right"):
+				chosen_dirs.pop_front()
+				prior_event = event
+		Directions.UP:
+			if event.is_action_pressed("up"):
+				chosen_dirs.pop_front()
+				prior_event = event
+		Directions.DOWN:
+			if event.is_action_pressed("down"):
+				chosen_dirs.pop_front()
+				prior_event = event
+
+	if event.is_match(prior_event, true):
+		return
+	else: 
+		prior_event = event
+		player_fail() # add more inputs on fail
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -56,19 +83,6 @@ func _process(_delta: float) -> void:
 	
 	input_label.text = make_display_text()
 	time_label.text = str(timer.time_left).pad_decimals(2)
-	match chosen_dirs[0]:
-		Directions.LEFT:
-			if Input.is_action_just_pressed("left"):
-				chosen_dirs.pop_front()
-		Directions.RIGHT:
-			if Input.is_action_just_pressed("right"):
-				chosen_dirs.pop_front()
-		Directions.UP:
-			if Input.is_action_just_pressed("up"):
-				chosen_dirs.pop_front()
-		Directions.DOWN:
-			if Input.is_action_just_pressed("down"):
-				chosen_dirs.pop_front()
 
 
 func _on_timer_timeout() -> void:
