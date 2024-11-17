@@ -31,6 +31,7 @@ func instantiate_combo_timer() -> void:
 	if combo_timer:
 		combo_timer.queue_free()
 	combo_timer = Timer.new()
+	combo_timer.one_shot = true
 	combo_timer.wait_time = COMBO_TIME
 	combo_timer.timeout.connect(_on_combo_timeout)
 	add_child(combo_timer)
@@ -44,6 +45,7 @@ func connect_bobber(bobber_node: Node2D):
 	bobber = bobber_node
 	bobber.win_fish.connect(_on_bobber_win)
 	bobber.lose_fish.connect(_on_bobber_lose)
+	bobber.qte_signal_repeater.connect(_on_qte_end)
 	score_updated.connect(bobber._on_score_changes)
 
 func score_calc(fish: FishData) -> int:
@@ -64,3 +66,6 @@ func _on_bobber_lose(fish: FishData):
 
 func _on_combo_timeout():
 	combo = 0
+
+func _on_qte_end(is_success: bool):
+	if is_success: combo_timer.start(COMBO_TIME)

@@ -36,6 +36,7 @@ enum State {
 
 signal win_fish(fishdata: FishData)
 signal lose_fish(fishdata: FishData)
+signal qte_signal_repeater(is_success: bool)
 
 var velocity := Vector2.ZERO
 var state := State.WINDING:
@@ -187,6 +188,7 @@ func _on_area_entered(reel_fish: Area2D) -> void:
 
 
 func _on_qte_event_end_qte(is_success: bool) -> void:
+	qte_signal_repeater.emit(is_success)
 	if is_success:
 		qte_tween = get_tree().create_tween().set_trans(Tween.TRANS_EXPO)
 		velocity = -position.normalized() * catch_speed
