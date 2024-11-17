@@ -18,6 +18,7 @@ var combo_timer: Timer = null
 
 signal score_updated(score: int)
 signal combo_updated(combo: int)
+signal score_calculated(change: int)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -55,11 +56,14 @@ func score_calc(fish: FishData) -> int:
 	return floori(size * (size/time) * c)
 
 func _on_bobber_win(fish: FishData):
-	score += score_calc(fish)
+	var calc := score_calc(fish)
+	score_calculated.emit(calc)
+	score += calc
 	combo += 1
 	combo_timer.start(COMBO_TIME)
 
 func _on_bobber_lose(fish: FishData):
+	score_calculated.emit(-fish.qte_size)
 	score -= fish.qte_size
 	combo = 0
 	combo_timer.stop()
