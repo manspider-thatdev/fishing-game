@@ -44,7 +44,7 @@ func player_fail() -> void:
 var prior_event: InputEvent = null
 func _input(event: InputEvent) -> void:
 	if timer.time_left == 0: return
-	
+	# there's currently a bug where mouse-movement isn't ignored and is counted as a fail-input
 	match chosen_dirs[0]:
 		Directions.LEFT:
 			if event.is_action_pressed("left"):

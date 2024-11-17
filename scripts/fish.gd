@@ -118,11 +118,6 @@ func _on_bobber_move(bobber: Node2D, isScared: bool) -> void: # Check for Intere
 		flee_timer.start(fish_data.flee_wait)
 
 
-# Fish has been caught
-func on_catch() -> void:
-	queue_free()
-
-
 func attract(bobber) -> void:
 	fish_state = FishStates.SEEK
 	current_target = bobber

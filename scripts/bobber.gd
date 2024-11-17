@@ -34,8 +34,8 @@ enum State {
 @export var drag_speed: float = 5.0
 @export var burst_time: float = 1.5
 
-signal win
-signal lose
+signal win_fish(fishdata: FishData)
+signal lose_fish(fishdata: FishData)
 
 var velocity := Vector2.ZERO
 var state := State.WINDING:
@@ -136,8 +136,8 @@ func catch(_delta: float) -> void:
 			qte_tween.kill()
 		state = State.WINDING
 		anim_player.play("IDLE")
-		win.emit(fish.fish_data.qte_size)
-		fish.on_catch()
+		win_fish.emit(fish.fish_data)
+		fish.queue_free()
 		fish = null
 	elif fish == null or !is_ancestor_of(fish):
 		fish = null
@@ -152,17 +152,12 @@ func _ready() -> void:
 	cast_bar.max_value = max_cast_distance
 
 func _process(delta: float) -> void:
-	if state == State.WINDING:
-		windup(delta)
-	elif state == State.CASTING:
-		cast(delta)
-	elif state == State.REELING:
-		reel(delta)
-	elif state == State.NUDGING:
-		nudge(delta)
-	elif state == State.CATCHING:
-		catch(delta)
-	
+	match state:
+		State.WINDING: windup(delta)
+		State.CASTING: cast(delta)
+		State.REELING: reel(delta)
+		State.NUDGING: nudge(delta)
+		State.CATCHING: catch(delta)
 	if Input.is_physical_key_pressed(KEY_K):
 		print(get_overlapping_areas())
 
@@ -202,10 +197,12 @@ func _on_qte_event_end_qte(is_success: bool) -> void:
 		else:
 			velocity = Vector2.ZERO
 	else:
+		lose_fish.emit(fish.fish_data)
 		fish.queue_free()
+		fish = null
 		state = State.REELING
 		anim_player.play("IDLE")
 
 
-func _on_score_changes() -> void:
-	score_label.text = "Score: " + str(get_parent().score)
+func _on_score_changes(score: int) -> void:
+	score_label.text = "Score: " + str(score)
