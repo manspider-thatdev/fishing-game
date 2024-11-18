@@ -17,6 +17,8 @@ var chosen_dirs: Array[int] = [] # empty array to add RNG inputs
 @export var time: float = 5.0
 # @export var fail_value: float = 2.0 # TEMP, smth for the struggle-meter?
 
+var prior_event: InputEvent = null
+
 
 func choose_inputs(qte_length: int) -> void:
 	rng.randomize()
@@ -41,33 +43,43 @@ func player_fail() -> void:
 	input_label.text = make_display_text()
 
 
-var prior_event: InputEvent = null
 func _input(event: InputEvent) -> void:
 	if timer.time_left == 0: return
-	# there's currently a bug where mouse-movement isn't ignored and is counted as a fail-input
+	var inputs = {
+		"LEFT": event.is_action_pressed("left"),
+		"RIGHT": event.is_action_pressed("right"),
+		"UP": event.is_action_pressed("up"),
+		"DOWN": event.is_action_pressed("down"),
+	}
+	
+	if inputs.values().all(func(is_pressed): return !is_pressed):
+		prior_event = null
+		return
+	
 	match chosen_dirs[0]:
 		Directions.LEFT:
-			if event.is_action_pressed("left"):
+			if inputs["LEFT"]:
 				chosen_dirs.pop_front()
 				prior_event = event
 		Directions.RIGHT:
-			if event.is_action_pressed("right"):
+			if inputs["RIGHT"]:
 				chosen_dirs.pop_front()
 				prior_event = event
 		Directions.UP:
-			if event.is_action_pressed("up"):
+			if inputs["UP"]:
 				chosen_dirs.pop_front()
 				prior_event = event
 		Directions.DOWN:
-			if event.is_action_pressed("down"):
+			if inputs["DOWN"]:
 				chosen_dirs.pop_front()
 				prior_event = event
-
+	
 	if event.is_match(prior_event, true):
 		return
-	else: 
-		prior_event = event
-		player_fail() # add more inputs on fail
+	
+	prior_event = event
+	player_fail() # add more inputs on fail
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:

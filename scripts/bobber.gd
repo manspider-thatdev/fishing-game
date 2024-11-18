@@ -159,8 +159,6 @@ func _process(delta: float) -> void:
 		State.REELING: reel(delta)
 		State.NUDGING: nudge(delta)
 		State.CATCHING: catch(delta)
-	if Input.is_physical_key_pressed(KEY_K):
-		print(get_overlapping_areas())
 
 
 func _physics_process(delta: float) -> void:
