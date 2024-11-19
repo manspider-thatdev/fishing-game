@@ -1,6 +1,35 @@
-[gd_scene load_steps=2 format=3 uid="uid://ciayav6ll3p1"]
+[gd_scene load_steps=4 format=3 uid="uid://ciayav6ll3p1"]
 
 [ext_resource type="Script" path="res://scripts/qte_event.gd" id="1_nahoe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3n00l"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.67, 0.4556, 0.268, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.483785, 0.300799, 0.135365, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e3dnq"]
+bg_color = Color(0.71, 0.215367, 0.1704, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
 
 [node name="QteEvent" type="Node2D"]
 script = ExtResource("1_nahoe")
@@ -18,12 +47,20 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 20
 
-[node name="Time" type="Label" parent="Labels"]
-offset_top = 25.0
+[node name="Time" type="ProgressBar" parent="Labels"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -40.0
+offset_top = 32.0
 offset_right = 40.0
 offset_bottom = 48.0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
+grow_horizontal = 2
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 10
+theme_override_styles/background = SubResource("StyleBoxFlat_3n00l")
+theme_override_styles/fill = SubResource("StyleBoxFlat_e3dnq")
+value = 50.0
+show_percentage = false
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

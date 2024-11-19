@@ -94,7 +94,7 @@ func _process(_delta: float) -> void:
 		return
 	
 	input_label.text = make_display_text()
-	time_label.text = str(timer.time_left).pad_decimals(2)
+	time_label.value = timer.time_left / time * 100
 
 
 func _on_timer_timeout() -> void:
