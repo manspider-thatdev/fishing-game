@@ -148,9 +148,11 @@ func catch(_delta: float) -> void:
 		state = State.REELING
 		anim_player.play("IDLE")
 
+
 func _ready() -> void:
 	Globals.connect_bobber(self)
 	cast_bar.max_value = max_cast_distance
+
 
 func _process(delta: float) -> void:
 	match state:
@@ -170,7 +172,8 @@ func _physics_process(delta: float) -> void:
 		if state == State.REELING and far_bobber.monitoring:
 			await get_tree().physics_frame
 			for spotted_fish: Area2D in far_bobber.get_overlapping_areas():
-				spotted_fish._on_bobber_move(self, true)
+				if not overlaps_area(spotted_fish):
+					spotted_fish._on_bobber_move(self, true)
 
 
 func _on_bobber_range_area_entered(area: Area2D) -> void:

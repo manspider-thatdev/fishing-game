@@ -20,13 +20,6 @@ signal score_updated(score: int)
 signal combo_updated(combo: int)
 signal score_calculated(change: int)
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 
 func instantiate_combo_timer() -> void:
 	if combo_timer:

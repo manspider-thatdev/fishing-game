@@ -2,7 +2,10 @@ extends Area2D
 class_name Fish
 
 enum FishStates {ROAM, SEEK, HOOK, FLEE}
-var fish_state: FishStates = FishStates.ROAM
+var fish_state: FishStates = FishStates.ROAM:
+	set(value):
+		if fish_state != FishStates.HOOK:
+			fish_state = value
 var fish_data: FishData = FishData.new() # see: fish_data.gd, usually should change w/ set_values() below
 
 var rng := RandomNumberGenerator.new()
@@ -109,6 +112,8 @@ func _on_fleeing_timeout() -> void:
 
 
 func _on_bobber_move(bobber: Node2D, isScared: bool) -> void: # Check for Interest or Startle
+	if fish_state == FishStates.HOOK:
+		return
 	current_target = bobber
 	if !isScared:
 		fish_state = FishStates.SEEK

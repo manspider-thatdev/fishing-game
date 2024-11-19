@@ -16,7 +16,7 @@ func _ready() -> void:
 	scoreup_label.visible = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	assert(Globals.combo_timer)
 	combo_bar.value = Globals.combo_timer.time_left
 
