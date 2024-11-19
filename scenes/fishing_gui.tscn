@@ -1,59 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://d34xyh3hk8kgu"]
+[gd_scene load_steps=9 format=3 uid="uid://d34xyh3hk8kgu"]
 
 [ext_resource type="Script" path="res://scripts/fishing_gui.gd" id="1_tdink"]
 [ext_resource type="FontFile" uid="uid://byl2kimsamg54" path="res://assets/fonts/BNHightide.otf" id="1_yjyji"]
-
-[sub_resource type="Animation" id="Animation_v6lvw"]
-resource_name = "SCOREUP"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MarginContainer/VBoxContainer/ScoreLabel/ScoreUpLabel:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("MarginContainer/VBoxContainer/ScoreLabel/ScoreUpLabel:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("MarginContainer/VBoxContainer/ScoreLabel/ScoreUpLabel:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(200, 0), Vector2(200, -15)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("MarginContainer/VBoxContainer/ScoreLabel:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 1, 0, 1), Color(1, 1, 1, 1)]
-}
+[ext_resource type="Texture2D" uid="uid://cj08u2bep1s1y" path="res://assets/2d/fish/FishRed.png" id="3_actct"]
 
 [sub_resource type="Animation" id="Animation_cbsye"]
 length = 0.001
@@ -170,12 +119,68 @@ tracks/3/keys = {
 "values": [Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_v6lvw"]
+resource_name = "SCOREUP"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer/VBoxContainer/ScoreLabel/ScoreUpLabel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MarginContainer/VBoxContainer/ScoreLabel/ScoreUpLabel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MarginContainer/VBoxContainer/ScoreLabel/ScoreUpLabel:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(200, 0), Vector2(200, -15)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MarginContainer/VBoxContainer/ScoreLabel:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 1, 0, 1), Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ffcey"]
 _data = {
 "RESET": SubResource("Animation_cbsye"),
 "SCOREDOWN": SubResource("Animation_t66ow"),
 "SCOREUP": SubResource("Animation_v6lvw")
 }
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m66xj"]
+atlas = ExtResource("3_actct")
+region = Rect2(0, 0, 32, 32)
 
 [node name="fishing_gui" type="CanvasLayer"]
 script = ExtResource("1_tdink")
@@ -230,3 +235,22 @@ show_percentage = false
 libraries = {
 "": SubResource("AnimationLibrary_ffcey")
 }
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="TextureRect" type="TextureRect" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("AtlasTexture_m66xj")
+stretch_mode = 3
+flip_h = true

@@ -247,6 +247,7 @@ rounded = true
 show_percentage = false
 
 [node name="ScoreLabel" type="Label" parent="."]
+visible = false
 offset_left = -500.0
 offset_top = -300.0
 offset_right = -439.0
