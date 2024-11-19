@@ -12,3 +12,4 @@ flee_wait = null
 texture2D = ExtResource("2_phvaw")
 anim_frames = 2
 qte_size = 4
+qte_time = 6.0

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FishData" load_steps=3 format=3 uid="uid://vi5umvwhqtbg"]
+
+[ext_resource type="Script" path="res://scripts/fish_data.gd" id="1_4y7pl"]
+[ext_resource type="Texture2D" uid="uid://c7cv5mgl8j2y4" path="res://assets/2d/fish/MediumFishPurple-Sheet.png" id="2_lb22x"]
+
+[resource]
+script = ExtResource("1_4y7pl")
+lifespan = 100.0
+time_until_move = 5.0
+move_speed = 35.0
+flee_wait = null
+texture2D = ExtResource("2_lb22x")
+anim_frames = 2
+qte_size = 10
+qte_time = 8.0

@@ -5,9 +5,9 @@
 
 [resource]
 script = ExtResource("1_6166a")
-lifespan = 60.0
-time_until_move = 3.0
-move_speed = 40.0
+lifespan = 50.0
+time_until_move = 2.0
+move_speed = 45.0
 flee_wait = null
 texture2D = ExtResource("2_hlljr")
 anim_frames = 2

@@ -5,10 +5,11 @@
 
 [resource]
 script = ExtResource("1_hlswo")
-lifespan = 60.0
-time_until_move = 3.0
-move_speed = 40.0
+lifespan = 65.0
+time_until_move = 2.0
+move_speed = 45.0
 flee_wait = null
 texture2D = ExtResource("2_2a0ng")
 anim_frames = 2
 qte_size = 4
+qte_time = 5.0

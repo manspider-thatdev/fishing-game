@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FishData" load_steps=3 format=3 uid="uid://c124cbjie8128"]
+
+[ext_resource type="Script" path="res://scripts/fish_data.gd" id="1_biqmn"]
+[ext_resource type="Texture2D" uid="uid://cwp01qjvhvevw" path="res://assets/2d/fish/SharkYellow.png" id="2_ioacv"]
+
+[resource]
+script = ExtResource("1_biqmn")
+lifespan = 120.0
+time_until_move = 4.0
+move_speed = 100.0
+flee_wait = null
+texture2D = ExtResource("2_ioacv")
+anim_frames = 2
+qte_size = 14
+qte_time = 7.0

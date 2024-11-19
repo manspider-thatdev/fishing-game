@@ -39,7 +39,7 @@ func make_display_text() -> String:
 
 
 func player_fail() -> void:
-	chosen_dirs.push_back(rng.randi_range(1, 3))
+	chosen_dirs.push_back(rng.randi_range(0, 3))
 	input_label.text = make_display_text()
 
 

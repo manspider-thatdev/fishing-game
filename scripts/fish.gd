@@ -4,8 +4,11 @@ class_name Fish
 enum FishStates {ROAM, SEEK, HOOK, FLEE}
 var fish_state: FishStates = FishStates.ROAM:
 	set(value):
+		sprite.texture = fish_data.texture2D
 		if fish_state != FishStates.HOOK:
 			fish_state = value
+		if fish_state == FishStates.FLEE:
+			sprite.texture = preload("res://assets/2d/fish/FishShadow.png")
 var fish_data: FishData = FishData.new() # see: fish_data.gd, usually should change w/ set_values() below
 
 var rng := RandomNumberGenerator.new()
