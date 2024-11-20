@@ -101,3 +101,4 @@ func _on_timer_timeout() -> void:
 	end_qte.emit(false)
 	input_label.hide()
 	time_label.hide()
+	timer.stop()

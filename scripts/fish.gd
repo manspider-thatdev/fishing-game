@@ -139,3 +139,5 @@ func _on_area_entered(area: Area2D) -> void: # When entering nearest bobber rang
 	is_immortal = true
 	await get_tree().physics_frame
 	reparent(area)
+	sprite.flip_h = false
+	rotation_degrees = 90

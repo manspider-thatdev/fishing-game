@@ -34,6 +34,9 @@ enum State {
 @export var drag_speed: float = 5.0
 @export var burst_time: float = 1.5
 
+@export_group("Animated Variables (Don't Touch)")
+@export var fish_position := Vector2.ZERO
+
 signal win_fish(fishdata: FishData)
 signal lose_fish(fishdata: FishData)
 signal qte_signal_repeater(is_success: bool)
@@ -61,7 +64,9 @@ var predicted_cast: float = 0.0:
 	set(value):
 		predicted_cast = snappedf(value, 0.01)
 var fish: Fish = null
+var fish_data: FishData = null
 var qte_tween: Tween = null
+var temporary_pause := false
 
 
 func windup(_delta: float) -> void:
@@ -140,13 +145,17 @@ func catch(_delta: float) -> void:
 		win_fish.emit(fish.fish_data)
 		fish.queue_free()
 		fish = null
-	elif fish == null or !is_ancestor_of(fish):
+	elif (fish == null or !is_ancestor_of(fish)) and temporary_pause:
 		fish = null
 		velocity = Vector2.ZERO
 		if qte_tween != null:
 			qte_tween.kill()
 		state = State.REELING
 		anim_player.play("IDLE")
+	
+	if fish != null:
+		fish.position = fish_position
+		temporary_pause = false
 
 
 func _ready() -> void:
@@ -182,10 +191,12 @@ func _on_bobber_range_area_entered(area: Area2D) -> void:
 
 func _on_area_entered(reel_fish: Area2D) -> void:
 	state = State.CATCHING
-	anim_player.play("REEL")
 	velocity = position.normalized() * drag_speed
 	fish = reel_fish
+	fish_data = fish.fish_data
 	qte_event.choose_inputs(fish.fish_data.qte_size)
+	anim_player.play("REEL")
+	temporary_pause = true
 
 
 func _on_qte_event_end_qte(is_success: bool) -> void:
@@ -200,7 +211,7 @@ func _on_qte_event_end_qte(is_success: bool) -> void:
 		else:
 			velocity = Vector2.ZERO
 	else:
-		lose_fish.emit(fish.fish_data)
+		lose_fish.emit(fish_data)
 		fish.queue_free()
 		fish = null
 		state = State.REELING

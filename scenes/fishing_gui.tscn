@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://d34xyh3hk8kgu"]
+[gd_scene load_steps=9 format=3 uid="uid://bxcfccihjg7af"]
 
 [ext_resource type="Script" path="res://scripts/fishing_gui.gd" id="1_tdink"]
 [ext_resource type="FontFile" uid="uid://byl2kimsamg54" path="res://assets/fonts/BNHightide.otf" id="1_yjyji"]
