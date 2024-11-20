@@ -32,4 +32,4 @@ spawn_area = Rect2(-300, -1200, 600, 1200)
 FISH_CAP = 20
 
 [node name="Ocean" parent="." instance=ExtResource("3_3r3hx")]
-position = Vector2(0, -600)
+scale = Vector2(1, 1)
