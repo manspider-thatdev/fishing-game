@@ -226,7 +226,7 @@ position_smoothing_enabled = true
 
 [node name="CastBar" type="ProgressBar" parent="."]
 visible = false
-z_index = 7
+z_index = 20
 custom_minimum_size = Vector2(128, 16)
 anchors_preset = 7
 anchor_left = 0.5
@@ -248,6 +248,7 @@ show_percentage = false
 
 [node name="ScoreLabel" type="Label" parent="."]
 visible = false
+z_index = 20
 offset_left = -500.0
 offset_top = -300.0
 offset_right = -439.0
@@ -259,6 +260,7 @@ text = "Score: 0"
 [node name="QteEvent" parent="." instance=ExtResource("2_1lpvm")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 7
 texture = ExtResource("3_eou60")
 hframes = 5
 vframes = 7

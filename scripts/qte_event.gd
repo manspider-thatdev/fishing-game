@@ -10,7 +10,7 @@ signal end_qte(is_success: bool)
 
 enum Directions {LEFT, UP, RIGHT, DOWN}
 # WARNING: If you change the String char-order pls update above enum
-var text_dirs: String = "←↑→↓"
+var text_dirs: String = "🡰🡱🡲🡳"
 var chosen_dirs: Array[int] = [] # empty array to add RNG inputs
 
 @export var input_num: int = 4 # number of required inputs

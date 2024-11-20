@@ -47,11 +47,13 @@ one_shot = true
 z_index = 7
 
 [node name="Inputs" type="Label" parent="Labels"]
+z_index = 20
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
+offset_left = -16.0
 offset_top = -51.0
-offset_right = 56.0
+offset_right = 40.0
 grow_vertical = 0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -64,6 +66,7 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_mlrb1")
 
 [node name="Time" type="ProgressBar" parent="Labels"]
 visible = false
+z_index = 20
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
