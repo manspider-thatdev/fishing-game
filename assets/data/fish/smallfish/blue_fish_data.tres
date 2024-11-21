@@ -13,3 +13,4 @@ texture2D = ExtResource("2_2a0ng")
 anim_frames = 2
 qte_size = 4
 qte_time = 5.0
+name = "Bluejoy"

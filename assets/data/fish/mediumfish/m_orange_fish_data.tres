@@ -1,15 +1,16 @@
 [gd_resource type="Resource" script_class="FishData" load_steps=3 format=3 uid="uid://dvx43sexvy108"]
 
 [ext_resource type="Script" path="res://scripts/fish_data.gd" id="1_dux4h"]
-[ext_resource type="Texture2D" uid="uid://q51drfwm00fr" path="res://assets/2d/fish/FishGreen Sprite.png" id="2_gs67o"]
+[ext_resource type="Texture2D" uid="uid://d4lvoxtun1rdp" path="res://assets/2d/fish/MediumFishOrange.png" id="2_ttiq6"]
 
 [resource]
 script = ExtResource("1_dux4h")
-lifespan = 50.0
-time_until_move = 2.0
-move_speed = 45.0
+lifespan = 100.0
+time_until_move = 5.0
+move_speed = 35.0
 flee_wait = null
-texture2D = ExtResource("2_gs67o")
+texture2D = ExtResource("2_ttiq6")
 anim_frames = 2
-qte_size = 6
-qte_time = 5.0
+qte_size = 10
+qte_time = 8.0
+name = "Big Oran"

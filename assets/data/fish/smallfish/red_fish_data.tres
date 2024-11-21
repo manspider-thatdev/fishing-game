@@ -13,3 +13,4 @@ texture2D = ExtResource("2_op2hr")
 anim_frames = 2
 qte_size = 5
 qte_time = 5.0
+name = "Redsnap"

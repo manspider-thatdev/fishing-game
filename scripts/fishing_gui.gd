@@ -2,11 +2,13 @@ extends CanvasLayer
 
 var score_string: String = "Score: %d"
 var combo_string: String = "Combo: x%d"
-@onready var score_label = $MarginContainer/VBoxContainer/ScoreLabel
-@onready var combo_label = $MarginContainer/VBoxContainer/ComboLabel
-@onready var combo_bar = $MarginContainer/VBoxContainer/ProgressBar
-@onready var scoreup_label = $MarginContainer/VBoxContainer/ScoreLabel/ScoreUpLabel
-@onready var anim_player = $AnimationPlayer
+@onready var score_label: Label = $MarginContainer/VBoxContainer/ScoreLabel
+@onready var combo_label: Label = $MarginContainer/VBoxContainer/ComboLabel
+@onready var combo_bar: ProgressBar = $MarginContainer/VBoxContainer/ProgressBar
+@onready var scoreup_label: Label = $MarginContainer/VBoxContainer/ScoreLabel/ScoreUpLabel
+@onready var anim_player: AnimationPlayer = $AnimationPlayer
+@onready var caught_fish_label: Label = $VBoxContainer/Label
+@onready var caught_fish_texrect: TextureRect = $VBoxContainer/PanelContainer/TextureRect
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

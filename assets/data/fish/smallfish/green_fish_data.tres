@@ -13,3 +13,4 @@ texture2D = ExtResource("2_hlljr")
 anim_frames = 2
 qte_size = 6
 qte_time = 5.0
+name = "Sourface"

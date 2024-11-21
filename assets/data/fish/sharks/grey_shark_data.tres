@@ -13,3 +13,4 @@ texture2D = ExtResource("2_sbo3e")
 anim_frames = 2
 qte_size = 12
 qte_time = 6.0
+name = "Great White"

@@ -12,3 +12,5 @@ flee_wait = null
 texture2D = ExtResource("2_23cf5")
 anim_frames = 2
 qte_size = 4
+qte_time = 5.0
+name = "Yellowfin"

@@ -13,3 +13,4 @@ texture2D = ExtResource("2_wwvpa")
 anim_frames = 2
 qte_size = 8
 qte_time = 6.0
+name = "Clean Eel"

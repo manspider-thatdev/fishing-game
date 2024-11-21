@@ -13,3 +13,4 @@ texture2D = ExtResource("2_ioacv")
 anim_frames = 2
 qte_size = 14
 qte_time = 7.0
+name = "Sea King"

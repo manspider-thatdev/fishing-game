@@ -9,3 +9,4 @@ class_name FishData
 @export var anim_frames: int = 2
 @export var qte_size: int = 4
 @export var qte_time: float = 5.0
+@export var name: String = "Mister Fish"

@@ -13,3 +13,4 @@ texture2D = ExtResource("2_lb22x")
 anim_frames = 2
 qte_size = 10
 qte_time = 8.0
+name = "Big Purp"
