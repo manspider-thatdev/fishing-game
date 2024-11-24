@@ -15,11 +15,13 @@ enum State {
 @onready var far_bobber: Area2D = $FarBobber
 @onready var qte_event: Node2D = $QteEvent
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
+# SFX
 @onready var windup_sfx_player: AudioStreamPlayer = $SFX/WindupPlayer
 @onready var landing_sfx_player: AudioStreamPlayer = $SFX/LandingPlayer
 @onready var cast_sfx_player: AudioStreamPlayer = $SFX/CastPlayer
 @onready var catch_sfx_player: AudioStreamPlayer = $SFX/CatchPlayer
 @onready var reel_sfx_player: AudioStreamPlayer = $SFX/ReelPlayer
+@onready var struggle_sfx_player: AudioStreamPlayer = $SFX/StrugglePlayer
 
 @export_group("Casting")
 @export var cast_speed := Vector2(25.0, 50.0)
@@ -157,6 +159,7 @@ func catch(_delta: float) -> void:
 			qte_tween.kill()
 		state = State.WINDING
 		anim_player.play("IDLE")
+		struggle_sfx_player.stop()
 		catch_sfx_player.play()
 		win_fish.emit(fish.fish_data)
 		fish.queue_free()
@@ -168,10 +171,12 @@ func catch(_delta: float) -> void:
 			qte_tween.kill()
 		state = State.REELING
 		anim_player.play("IDLE")
+		struggle_sfx_player.stop()
 	
 	if fish != null:
 		fish.position = fish_position
 		temporary_pause = false
+		if not struggle_sfx_player.playing: struggle_sfx_player.play()
 
 
 func _ready() -> void:
