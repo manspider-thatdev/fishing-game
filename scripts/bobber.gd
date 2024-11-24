@@ -16,6 +16,9 @@ enum State {
 @onready var qte_event: Node2D = $QteEvent
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 @onready var windup_sfx_player: AudioStreamPlayer = $SFX/WindupPlayer
+@onready var landing_sfx_player: AudioStreamPlayer = $SFX/LandingPlayer
+@onready var cast_sfx_player: AudioStreamPlayer = $SFX/CastPlayer
+@onready var catch_sfx_player: AudioStreamPlayer = $SFX/CatchPlayer
 
 @export_group("Casting")
 @export var cast_speed := Vector2(25.0, 50.0)
@@ -82,6 +85,7 @@ func windup(_delta: float) -> void:
 		anim_player.play("AIR")
 		cast_bar.hide()
 		windup_sfx_player.stop()
+		cast_sfx_player.play()
 	elif Input.is_action_pressed("space"):
 		predicted_cast = pingpong(timer.time_left / (cast_time * 0.5), 1.0) * max_cast_distance
 		cast_bar.value = predicted_cast
@@ -90,6 +94,7 @@ func windup(_delta: float) -> void:
 func cast(_delta: float) -> void:
 	if Input.is_action_just_pressed("space"):
 		state = State.REELING
+		landing_sfx_player.play()
 	
 	var sway: float = Input.get_axis("left", "right")
 	velocity = Vector2(cast_speed.x * sway, -cast_speed.y)
@@ -97,6 +102,7 @@ func cast(_delta: float) -> void:
 	if absf(position.y) >= predicted_cast:
 		position.y = -predicted_cast
 		state = State.REELING
+		landing_sfx_player.play()
 
 
 func reel(_delta: float) -> void:
@@ -145,6 +151,7 @@ func catch(_delta: float) -> void:
 			qte_tween.kill()
 		state = State.WINDING
 		anim_player.play("IDLE")
+		catch_sfx_player.play()
 		win_fish.emit(fish.fish_data)
 		fish.queue_free()
 		fish = null
