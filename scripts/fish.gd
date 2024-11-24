@@ -77,8 +77,7 @@ func new_idle_target() -> Node2D:
 	var magnitude := rng.randf_range(0, potential) # adds variety by not always going max-distance
 	var t_pos := direction * magnitude
 	# Out-of-bounds Checking/Handling
-	t_pos = t_pos.clamp(swimming_rect.position, swimming_rect.end)
-	idle_target.position = t_pos + position
+	idle_target.position = (t_pos + position).clamp(swimming_rect.position, swimming_rect.end)
 	return idle_target
 
 

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FishData" load_steps=3 format=3 uid="uid://d1d8ihbgw3ng3"]
+[gd_resource type="Resource" script_class="FishData" load_steps=3 format=3 uid="uid://61hm3h7liqvu"]
 
 [ext_resource type="Script" path="res://scripts/fish_data.gd" id="1_q18t3"]
 [ext_resource type="Texture2D" uid="uid://c5rtrx4gm5ewx" path="res://assets/2d/fish/seaStarPurple.png" id="2_8fkex"]
@@ -12,5 +12,5 @@ flee_wait = null
 texture2D = ExtResource("2_8fkex")
 anim_frames = 2
 qte_size = 3
-qte_time = 1.0
+qte_time = 2.0
 name = "Etoile-Rose"

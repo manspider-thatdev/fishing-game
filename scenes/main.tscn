@@ -22,10 +22,10 @@
 [ext_resource type="Resource" path="res://assets/data/fish/smallfish/green_puffer_fish_data.tres" id="18_4w2ag"]
 [ext_resource type="Resource" path="res://assets/data/fish/mediumfish/m_orangeoctopus_fish_data.tres" id="19_tlr3g"]
 [ext_resource type="Resource" path="res://assets/data/fish/mediumfish/m_purpleoctopus_fish_data.tres" id="20_k0vkr"]
-[ext_resource type="Resource" path="res://assets/data/fish/smallfish/blue_octopus_fish_data.tres" id="21_g0n0h"]
+[ext_resource type="Resource" uid="uid://cdl8csdpxgnyq" path="res://assets/data/fish/smallfish/blue_octopus_fish_data.tres" id="21_g0n0h"]
 [ext_resource type="Resource" path="res://assets/data/fish/smallfish/red_octopus_fish_data.tres" id="22_qask1"]
-[ext_resource type="Resource" path="res://assets/data/fish/smallfish/purple_star_fish_data.tres" id="23_1dtmq"]
-[ext_resource type="Resource" path="res://assets/data/fish/smallfish/yellow_star_fish_data.tres" id="24_up5yb"]
+[ext_resource type="Resource" uid="uid://61hm3h7liqvu" path="res://assets/data/fish/smallfish/purple_star_fish_data.tres" id="23_1dtmq"]
+[ext_resource type="Resource" uid="uid://ofd5njpsec84" path="res://assets/data/fish/smallfish/yellow_star_fish_data.tres" id="24_up5yb"]
 [ext_resource type="Resource" uid="uid://cabu8ao87og2d" path="res://assets/data/fish/boot_fish_data.tres" id="25_j637k"]
 
 [node name="Main" type="Node2D"]
@@ -41,7 +41,7 @@ burst_time = 3.0
 [node name="FishParent" type="Node2D" parent="."]
 script = ExtResource("2_wj0nw")
 FishDatas = Array[ExtResource("3_trnot")]([ExtResource("4_xpbyi"), ExtResource("5_uvikw"), ExtResource("6_ybffd"), ExtResource("7_42t70"), ExtResource("8_fer5s"), ExtResource("10_na8cn"), ExtResource("11_hl74h"), ExtResource("12_tvl3v"), ExtResource("13_y78pq"), ExtResource("14_pmx15"), ExtResource("15_6k8lj"), ExtResource("16_3sb7n"), ExtResource("17_7h2gb"), ExtResource("18_4w2ag"), ExtResource("19_tlr3g"), ExtResource("20_k0vkr"), ExtResource("21_g0n0h"), ExtResource("22_qask1"), ExtResource("23_1dtmq"), ExtResource("24_up5yb"), ExtResource("25_j637k")])
-spawn_area = Rect2(-220, -640, 440, 640)
+spawn_area = Rect2(-260, -688, 520, 688)
 FISH_CAP = 15
 
 [node name="Ocean" parent="." instance=ExtResource("3_3r3hx")]
