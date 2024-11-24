@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FishData" load_steps=3 format=3 uid="uid://divh604k5xupq"]
+
+[ext_resource type="Script" path="res://scripts/fish_data.gd" id="1_cf506"]
+[ext_resource type="Texture2D" uid="uid://kw52p5a1sqr7" path="res://assets/2d/fish/OctopusGiant-Sheet.png" id="2_cwy3p"]
+
+[resource]
+script = ExtResource("1_cf506")
+lifespan = 100.0
+time_until_move = 4.0
+move_speed = 80.0
+flee_wait = null
+texture2D = ExtResource("2_cwy3p")
+anim_frames = 2
+qte_size = 10
+qte_time = 8.0
+name = "Octopowerful"

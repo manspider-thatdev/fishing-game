@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FishData" load_steps=3 format=3 uid="uid://bjndikj5qbqq8"]
+
+[ext_resource type="Script" path="res://scripts/fish_data.gd" id="1_via6v"]
+[ext_resource type="Texture2D" uid="uid://ckamjo5xy3fjx" path="res://assets/2d/fish/pufferGreen-Sheet.png" id="2_1kqmd"]
+
+[resource]
+script = ExtResource("1_via6v")
+lifespan = 50.0
+time_until_move = 2.0
+move_speed = 45.0
+flee_wait = null
+texture2D = ExtResource("2_1kqmd")
+anim_frames = 2
+qte_size = 8
+qte_time = 5.0
+name = "Rad Puffer"

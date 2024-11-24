@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FishData" load_steps=3 format=3 uid="uid://bs531qvlli1ft"]
+
+[ext_resource type="Script" path="res://scripts/fish_data.gd" id="1_g1s6b"]
+[ext_resource type="Texture2D" uid="uid://de8wj4t52n34p" path="res://assets/2d/fish/boot-Sheet.png" id="2_8251w"]
+
+[resource]
+script = ExtResource("1_g1s6b")
+lifespan = 30.0
+time_until_move = 3.0
+move_speed = 20.0
+flee_wait = null
+texture2D = ExtResource("2_8251w")
+anim_frames = 2
+qte_size = 4
+qte_time = 20.0
+name = "An Old Boot..."

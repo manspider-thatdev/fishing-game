@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FishData" load_steps=3 format=3 uid="uid://tqov0swqi8w2"]
+
+[ext_resource type="Script" path="res://scripts/fish_data.gd" id="1_a3wtw"]
+[ext_resource type="Texture2D" uid="uid://nydokdfhiigj" path="res://assets/2d/fish/seaStarYellow.png" id="2_b4irc"]
+
+[resource]
+script = ExtResource("1_a3wtw")
+lifespan = 15.0
+time_until_move = 1.0
+move_speed = 40.0
+flee_wait = null
+texture2D = ExtResource("2_b4irc")
+anim_frames = 2
+qte_size = 3
+qte_time = 1.0
+name = "Starlet"
