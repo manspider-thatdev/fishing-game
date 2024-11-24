@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FishData" load_steps=3 format=3 uid="uid://dxl3he6spmtsg"]
+
+[ext_resource type="Script" path="res://scripts/fish_data.gd" id="1_6xlis"]
+[ext_resource type="Texture2D" uid="uid://xoo8t3rh665f" path="res://assets/2d/fish/ArowanaBlue.png" id="2_52fxt"]
+
+[resource]
+script = ExtResource("1_6xlis")
+lifespan = 120.0
+time_until_move = 1.0
+move_speed = 200.0
+flee_wait = null
+texture2D = ExtResource("2_52fxt")
+anim_frames = 2
+qte_size = 4
+qte_time = 1.0
+name = "Arrow-ana"

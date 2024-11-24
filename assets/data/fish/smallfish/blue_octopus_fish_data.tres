@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FishData" load_steps=3 format=3 uid="uid://dkw4r5lpkksha"]
+
+[ext_resource type="Script" path="res://scripts/fish_data.gd" id="1_qfekf"]
+[ext_resource type="Texture2D" uid="uid://bhqnfhal0jicq" path="res://assets/2d/fish/FishBlue.png" id="2_1rfwn"]
+
+[resource]
+script = ExtResource("1_qfekf")
+lifespan = 65.0
+time_until_move = 2.0
+move_speed = 45.0
+flee_wait = null
+texture2D = ExtResource("2_1rfwn")
+anim_frames = 2
+qte_size = 4
+qte_time = 5.0
+name = "Bluejoy"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FishData" load_steps=3 format=3 uid="uid://b5cy6rgawowt7"]
+
+[ext_resource type="Script" path="res://scripts/fish_data.gd" id="1_3cws5"]
+[ext_resource type="Texture2D" uid="uid://cfwi65urje67u" path="res://assets/2d/fish/pufferRed-Sheet.png" id="2_l5vdm"]
+
+[resource]
+script = ExtResource("1_3cws5")
+lifespan = 60.0
+time_until_move = 2.5
+move_speed = 45.0
+flee_wait = null
+texture2D = ExtResource("2_l5vdm")
+anim_frames = 2
+qte_size = 6
+qte_time = 5.0
+name = "Mad Puffer"
