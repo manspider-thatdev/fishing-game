@@ -1037,6 +1037,12 @@ pitch_scale = 0.99
 stream = ExtResource("12_an08d")
 volume_db = -3.0
 
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 0)
+width = 1.0
+round_precision = 2
+antialiased = true
+
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_entered" from="FarBobber" to="." method="_on_bobber_range_area_entered"]
 [connection signal="end_qte" from="QteEvent" to="." method="_on_qte_event_end_qte"]

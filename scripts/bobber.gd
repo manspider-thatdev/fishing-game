@@ -15,6 +15,7 @@ enum State {
 @onready var far_bobber: Area2D = $FarBobber
 @onready var qte_event: Node2D = $QteEvent
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
+@onready var line: Line2D = $Line2D
 # SFX
 @onready var windup_sfx_player: AudioStreamPlayer = $SFX/WindupPlayer
 @onready var landing_sfx_player: AudioStreamPlayer = $SFX/LandingPlayer
@@ -198,6 +199,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	line.points[0] = -position
 	match state:
 		State.WINDING: windup(delta)
 		State.CASTING: cast(delta)
