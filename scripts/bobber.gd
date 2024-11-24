@@ -129,6 +129,7 @@ func reel(_delta: float) -> void:
 		reel_sfx_player.stream_paused = true
 		if position.y >= 0:
 			state = State.WINDING
+			anim_player.play("REST")
 			predicted_cast = -1
 			reel_sfx_player.stop()
 
@@ -167,7 +168,7 @@ func catch(_delta: float) -> void:
 		if qte_tween != null:
 			qte_tween.kill()
 		state = State.WINDING
-		anim_player.play("IDLE")
+		anim_player.play("REST")
 		struggle_sfx_player.stop()
 		qtereel_sfx_player.stop()
 		catch_sfx_player.play()
