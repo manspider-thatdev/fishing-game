@@ -13,20 +13,21 @@ enum Directions {LEFT, UP, RIGHT, DOWN}
 var text_dirs: String = "🡰🡱🡲🡳"
 var chosen_dirs: Array[int] = [] # empty array to add RNG inputs
 
-@export var input_num: int = 4 # number of required inputs
-@export var time: float = 5.0
+const DEFAULT_SIZE: int = 4 # number of required inputs
+const DEFAULT_TIME: float = 5.0
 # @export var fail_value: float = 2.0 # TEMP, smth for the struggle-meter?
 
 var prior_event: InputEvent = null
 
 
-func choose_inputs(qte_length: int) -> void:
+func choose_inputs(qte_length: int = DEFAULT_SIZE, qte_time: float = DEFAULT_TIME) -> void:
 	rng.randomize()
 	chosen_dirs.resize(qte_length)
 	for n in qte_length:
 		chosen_dirs[n] = rng.randi_range(0, 3) # see above enum
-	timer.start(time)
+	timer.start(qte_time)
 	input_label.show()
+	time_label.max_value = qte_time
 	time_label.show()
 
 
@@ -94,7 +95,7 @@ func _process(_delta: float) -> void:
 		return
 	
 	input_label.text = make_display_text()
-	time_label.value = timer.time_left / time * 100
+	time_label.value = timer.time_left
 
 
 func _on_timer_timeout() -> void:

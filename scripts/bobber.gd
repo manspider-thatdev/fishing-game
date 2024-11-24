@@ -194,7 +194,7 @@ func _on_area_entered(reel_fish: Area2D) -> void:
 	velocity = position.normalized() * drag_speed
 	fish = reel_fish
 	fish_data = fish.fish_data
-	qte_event.choose_inputs(fish.fish_data.qte_size)
+	qte_event.choose_inputs(fish.fish_data.qte_size, fish.fish_data.qte_time)
 	anim_player.play("REEL")
 	temporary_pause = true
 
@@ -207,7 +207,7 @@ func _on_qte_event_end_qte(is_success: bool) -> void:
 		qte_tween.tween_property(self, "velocity", position.normalized() * drag_speed, burst_time)
 		await qte_tween.finished
 		if state == State.CATCHING:
-			qte_event.choose_inputs(fish.fish_data.qte_size)
+			qte_event.choose_inputs(fish.fish_data.qte_size, fish.fish_data.qte_time)
 		else:
 			velocity = Vector2.ZERO
 	else:
