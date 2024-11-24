@@ -15,7 +15,7 @@ enum State {
 @onready var far_bobber: Area2D = $FarBobber
 @onready var qte_event: Node2D = $QteEvent
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
-@onready var windup_player: AudioStreamPlayer = $SFX/WindupPlayer
+@onready var windup_sfx_player: AudioStreamPlayer = $SFX/WindupPlayer
 
 @export_group("Casting")
 @export var cast_speed := Vector2(25.0, 50.0)
@@ -75,13 +75,13 @@ func windup(_delta: float) -> void:
 		timer.start(cast_time)
 		predicted_cast = 0
 		cast_bar.show()
-		windup_player.play()
+		windup_sfx_player.play()
 	elif Input.is_action_just_released("space"):
 		timer.stop()
 		state = State.CASTING
 		anim_player.play("AIR")
 		cast_bar.hide()
-		windup_player.stop()
+		windup_sfx_player.stop()
 	elif Input.is_action_pressed("space"):
 		predicted_cast = pingpong(timer.time_left / (cast_time * 0.5), 1.0) * max_cast_distance
 		cast_bar.value = predicted_cast
