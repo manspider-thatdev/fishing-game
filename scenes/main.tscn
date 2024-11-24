@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cxns4l7xchmcv"]
+[gd_scene load_steps=18 format=3 uid="uid://cxns4l7xchmcv"]
 
 [ext_resource type="Script" path="res://scripts/main_scene.gd" id="1_1uytb"]
 [ext_resource type="PackedScene" uid="uid://cjy642yatxidm" path="res://scenes/bobber.tscn" id="1_pr8x7"]
@@ -16,6 +16,7 @@
 [ext_resource type="Resource" uid="uid://bg3xwx4ckf1tr" path="res://assets/data/fish/eels/eel_green_data.tres" id="13_y78pq"]
 [ext_resource type="Resource" uid="uid://qri0o6d0jt3k" path="res://assets/data/fish/sharks/grey_shark_data.tres" id="14_pmx15"]
 [ext_resource type="Resource" uid="uid://c124cbjie8128" path="res://assets/data/fish/sharks/yellow_shark_data.tres" id="15_6k8lj"]
+[ext_resource type="AudioStream" uid="uid://b6s66x4dm7tsd" path="res://assets/audio/125248__tomtenney__03_lanes_island_water_2_lowboat_48_24.wav" id="17_ec6eb"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_1uytb")
@@ -35,3 +36,9 @@ FISH_CAP = 20
 
 [node name="Ocean" parent="." instance=ExtResource("3_3r3hx")]
 scale = Vector2(1, 1)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("17_ec6eb")
+volume_db = -20.0
+autoplay = true
+bus = &"Ambience"
