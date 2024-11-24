@@ -16,24 +16,24 @@
 [ext_resource type="Resource" uid="uid://bg3xwx4ckf1tr" path="res://assets/data/fish/eels/eel_green_data.tres" id="13_y78pq"]
 [ext_resource type="Resource" uid="uid://qri0o6d0jt3k" path="res://assets/data/fish/sharks/grey_shark_data.tres" id="14_pmx15"]
 [ext_resource type="Resource" uid="uid://c124cbjie8128" path="res://assets/data/fish/sharks/yellow_shark_data.tres" id="15_6k8lj"]
-[ext_resource type="Resource" uid="uid://dxl3he6spmtsg" path="res://assets/data/fish/mediumfish/arrowana_fish_data.tres" id="16_3sb7n"]
-[ext_resource type="Resource" uid="uid://b5cy6rgawowt7" path="res://assets/data/fish/smallfish/red_puffer_fish_data.tres" id="17_7h2gb"]
+[ext_resource type="Resource" path="res://assets/data/fish/mediumfish/arrowana_fish_data.tres" id="16_3sb7n"]
+[ext_resource type="Resource" path="res://assets/data/fish/smallfish/red_puffer_fish_data.tres" id="17_7h2gb"]
 [ext_resource type="AudioStream" uid="uid://b6s66x4dm7tsd" path="res://assets/audio/125248__tomtenney__03_lanes_island_water_2_lowboat_48_24.wav" id="17_ec6eb"]
-[ext_resource type="Resource" uid="uid://bjndikj5qbqq8" path="res://assets/data/fish/smallfish/green_puffer_fish_data.tres" id="18_4w2ag"]
-[ext_resource type="Resource" uid="uid://cbfcihladg55b" path="res://assets/data/fish/mediumfish/m_orangeoctopus_fish_data.tres" id="19_tlr3g"]
-[ext_resource type="Resource" uid="uid://divh604k5xupq" path="res://assets/data/fish/mediumfish/m_purpleoctopus_fish_data.tres" id="20_k0vkr"]
-[ext_resource type="Resource" uid="uid://dkw4r5lpkksha" path="res://assets/data/fish/smallfish/blue_octopus_fish_data.tres" id="21_g0n0h"]
-[ext_resource type="Resource" uid="uid://bj8731du6p5tb" path="res://assets/data/fish/smallfish/red_octopus_fish_data.tres" id="22_qask1"]
-[ext_resource type="Resource" uid="uid://d1d8ihbgw3ng3" path="res://assets/data/fish/smallfish/purple_star_fish_data.tres" id="23_1dtmq"]
-[ext_resource type="Resource" uid="uid://tqov0swqi8w2" path="res://assets/data/fish/smallfish/yellow_star_fish_data.tres" id="24_up5yb"]
-[ext_resource type="Resource" uid="uid://bs531qvlli1ft" path="res://assets/data/fish/boot_fish_data.tres" id="25_j637k"]
+[ext_resource type="Resource" path="res://assets/data/fish/smallfish/green_puffer_fish_data.tres" id="18_4w2ag"]
+[ext_resource type="Resource" path="res://assets/data/fish/mediumfish/m_orangeoctopus_fish_data.tres" id="19_tlr3g"]
+[ext_resource type="Resource" path="res://assets/data/fish/mediumfish/m_purpleoctopus_fish_data.tres" id="20_k0vkr"]
+[ext_resource type="Resource" path="res://assets/data/fish/smallfish/blue_octopus_fish_data.tres" id="21_g0n0h"]
+[ext_resource type="Resource" path="res://assets/data/fish/smallfish/red_octopus_fish_data.tres" id="22_qask1"]
+[ext_resource type="Resource" path="res://assets/data/fish/smallfish/purple_star_fish_data.tres" id="23_1dtmq"]
+[ext_resource type="Resource" path="res://assets/data/fish/smallfish/yellow_star_fish_data.tres" id="24_up5yb"]
+[ext_resource type="Resource" path="res://assets/data/fish/boot_fish_data.tres" id="25_j637k"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_1uytb")
 
 [node name="Bobber" parent="." instance=ExtResource("1_pr8x7")]
-max_cast_distance = 600.0
-max_extents = 200.0
+max_cast_distance = 608.0
+max_extents = 196.0
 catch_speed = 140.0
 drag_speed = 15.0
 burst_time = 3.0
@@ -41,7 +41,7 @@ burst_time = 3.0
 [node name="FishParent" type="Node2D" parent="."]
 script = ExtResource("2_wj0nw")
 FishDatas = Array[ExtResource("3_trnot")]([ExtResource("4_xpbyi"), ExtResource("5_uvikw"), ExtResource("6_ybffd"), ExtResource("7_42t70"), ExtResource("8_fer5s"), ExtResource("10_na8cn"), ExtResource("11_hl74h"), ExtResource("12_tvl3v"), ExtResource("13_y78pq"), ExtResource("14_pmx15"), ExtResource("15_6k8lj"), ExtResource("16_3sb7n"), ExtResource("17_7h2gb"), ExtResource("18_4w2ag"), ExtResource("19_tlr3g"), ExtResource("20_k0vkr"), ExtResource("21_g0n0h"), ExtResource("22_qask1"), ExtResource("23_1dtmq"), ExtResource("24_up5yb"), ExtResource("25_j637k")])
-spawn_area = Rect2(-300, -1200, 600, 1200)
+spawn_area = Rect2(-220, -640, 440, 640)
 FISH_CAP = 20
 
 [node name="Ocean" parent="." instance=ExtResource("3_3r3hx")]
