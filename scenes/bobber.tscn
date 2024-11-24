@@ -1,8 +1,17 @@
-[gd_scene load_steps=19 format=3 uid="uid://cjy642yatxidm"]
+[gd_scene load_steps=28 format=3 uid="uid://cjy642yatxidm"]
 
 [ext_resource type="Script" path="res://scripts/bobber.gd" id="1_4j1gh"]
 [ext_resource type="PackedScene" uid="uid://ciayav6ll3p1" path="res://scenes/experimental/qte_event.tscn" id="2_1lpvm"]
 [ext_resource type="Texture2D" uid="uid://rf5txiemy423" path="res://assets/2d/bobber/Bobber.png" id="3_eou60"]
+[ext_resource type="AudioStream" uid="uid://d2853ucle30do" path="res://assets/audio/594368__kirstenbrooks3232__fishing-rod.wav" id="4_mcggd"]
+[ext_resource type="AudioStream" uid="uid://bn08pqqdjncof" path="res://assets/audio/544727__larapoe__waterstick-5-edit-splash1.wav" id="5_m7iqn"]
+[ext_resource type="AudioStream" uid="uid://7236elabyhp" path="res://assets/audio/326381__tyronew__fishing-rod-whip-edit1.wav" id="6_77stc"]
+[ext_resource type="AudioStream" uid="uid://bga8vy7srl5g1" path="res://assets/audio/591348__paulprit__hook-and-release-edit-catch1.wav" id="6_k1f4x"]
+[ext_resource type="AudioStream" uid="uid://mu20wn8nyjik" path="res://assets/audio/326105__luannwepener__fishing-controll-edit-reel1.wav" id="8_gspd8"]
+[ext_resource type="AudioStream" uid="uid://c8ujdxsae601c" path="res://assets/audio/592784__theflyfishingfilmmaker__trout-splashing-after-being-caught-edit-struggle.wav" id="9_vx3ma"]
+[ext_resource type="AudioStream" uid="uid://cmhl61pt1wkjy" path="res://assets/audio/326105__luannwepener__fishing-controll-edit-qte1.wav" id="10_4cffw"]
+[ext_resource type="AudioStream" uid="uid://bunxc835nfsfb" path="res://assets/audio/763511__handromyburg__various-fishing-rod-sounds-edit-qtewin.wav" id="11_jslgr"]
+[ext_resource type="AudioStream" uid="uid://cakkyphgwvoxl" path="res://assets/audio/563592__caitlynbananas__fish-release-edit.mp3" id="12_an08d"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ymqt8"]
 radius = 8.0
@@ -785,6 +794,45 @@ theme_override_constants/shadow_outline_size = 8
 theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_otqj6")
 text = "🡰"
+
+[node name="SFX" type="Node" parent="."]
+
+[node name="WindupPlayer" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("4_mcggd")
+volume_db = 3.5
+
+[node name="LandingPlayer" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("5_m7iqn")
+volume_db = 5.0
+
+[node name="CastPlayer" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("6_77stc")
+volume_db = 2.0
+
+[node name="CatchPlayer" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("6_k1f4x")
+volume_db = -4.0
+
+[node name="ReelPlayer" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("8_gspd8")
+volume_db = 2.0
+
+[node name="StrugglePlayer" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("9_vx3ma")
+volume_db = -7.0
+
+[node name="StruggleReelPlayer" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("10_4cffw")
+volume_db = 3.0
+
+[node name="QTEWinPlayer" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("11_jslgr")
+volume_db = 1.0
+pitch_scale = 0.99
+
+[node name="QTELosePlayer" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("12_an08d")
+volume_db = -3.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_entered" from="FarBobber" to="." method="_on_bobber_range_area_entered"]

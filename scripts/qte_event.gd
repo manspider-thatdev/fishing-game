@@ -7,6 +7,7 @@ signal end_qte(is_success: bool)
 @onready var timer := $Timer
 @onready var input_label := $Labels/Inputs
 @onready var time_label := $Labels/Time
+@onready var audio_player := $AudioStreamPlayer
 
 enum Directions {LEFT, UP, RIGHT, DOWN}
 # WARNING: If you change the String char-order pls update above enum
@@ -57,6 +58,7 @@ func _input(event: InputEvent) -> void:
 		prior_event = null
 		return
 	
+	audio_player.play()
 	match chosen_dirs[0]:
 		Directions.LEFT:
 			if inputs["LEFT"]:

@@ -15,6 +15,16 @@ enum State {
 @onready var far_bobber: Area2D = $FarBobber
 @onready var qte_event: Node2D = $QteEvent
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
+# SFX
+@onready var windup_sfx_player: AudioStreamPlayer = $SFX/WindupPlayer
+@onready var landing_sfx_player: AudioStreamPlayer = $SFX/LandingPlayer
+@onready var cast_sfx_player: AudioStreamPlayer = $SFX/CastPlayer
+@onready var catch_sfx_player: AudioStreamPlayer = $SFX/CatchPlayer
+@onready var reel_sfx_player: AudioStreamPlayer = $SFX/ReelPlayer
+@onready var struggle_sfx_player: AudioStreamPlayer = $SFX/StrugglePlayer
+@onready var qtereel_sfx_player: AudioStreamPlayer = $SFX/StruggleReelPlayer
+@onready var winqte_sfx_player: AudioStreamPlayer = $SFX/QTEWinPlayer
+@onready var loseqte_sfx_player: AudioStreamPlayer = $SFX/QTELosePlayer
 
 @export_group("Casting")
 @export var cast_speed := Vector2(25.0, 50.0)
@@ -74,11 +84,14 @@ func windup(_delta: float) -> void:
 		timer.start(cast_time)
 		predicted_cast = 0
 		cast_bar.show()
+		windup_sfx_player.play()
 	elif Input.is_action_just_released("space"):
 		timer.stop()
 		state = State.CASTING
 		anim_player.play("AIR")
 		cast_bar.hide()
+		windup_sfx_player.stop()
+		cast_sfx_player.play()
 	elif Input.is_action_pressed("space"):
 		predicted_cast = pingpong(timer.time_left / (cast_time * 0.5), 1.0) * max_cast_distance
 		cast_bar.value = predicted_cast
@@ -88,6 +101,7 @@ func cast(_delta: float) -> void:
 	if Input.is_action_just_pressed("space"):
 		state = State.REELING
 		anim_player.play("IDLE")
+		landing_sfx_player.play()
 	
 	var sway: float = Input.get_axis("left", "right")
 	velocity = Vector2(cast_speed.x * sway, -cast_speed.y)
@@ -96,9 +110,11 @@ func cast(_delta: float) -> void:
 		position.y = -predicted_cast
 		state = State.REELING
 		anim_player.play("IDLE")
+		landing_sfx_player.play()
 
 
 func reel(_delta: float) -> void:
+	reel_sfx_player.stream_paused = true
 	velocity = Input.get_vector("left", "right", "up", "down") * nudge_speed
 	if velocity != Vector2.ZERO:
 		state = State.NUDGING
@@ -107,9 +123,14 @@ func reel(_delta: float) -> void:
 	
 	if Input.is_action_pressed("space"):
 		velocity = -position.normalized() * reel_speed
-	elif position.y >= 0 and Input.is_action_just_released("space"):
-		state = State.WINDING
-		predicted_cast = -1
+		reel_sfx_player.stream_paused = false
+		if not reel_sfx_player.playing: reel_sfx_player.play()
+	elif Input.is_action_just_released("space"):
+		reel_sfx_player.stream_paused = true
+		if position.y >= 0:
+			state = State.WINDING
+			predicted_cast = -1
+			reel_sfx_player.stop()
 
 
 func nudge(delta: float) -> void:
@@ -139,6 +160,7 @@ func play_nudge_animation(direction: Vector2) -> void:
 
 
 func catch(_delta: float) -> void:
+	reel_sfx_player.stop()
 	if position.y >= 0:
 		position = Vector2.ZERO
 		velocity = Vector2.ZERO
@@ -146,6 +168,9 @@ func catch(_delta: float) -> void:
 			qte_tween.kill()
 		state = State.WINDING
 		anim_player.play("IDLE")
+		struggle_sfx_player.stop()
+		qtereel_sfx_player.stop()
+		catch_sfx_player.play()
 		win_fish.emit(fish.fish_data)
 		fish.queue_free()
 		fish = null
@@ -156,10 +181,14 @@ func catch(_delta: float) -> void:
 			qte_tween.kill()
 		state = State.REELING
 		anim_player.play("IDLE")
+		struggle_sfx_player.stop()
+		qtereel_sfx_player.stop()
 	
 	if fish != null:
 		fish.position = fish_position
 		temporary_pause = false
+		if not struggle_sfx_player.playing: struggle_sfx_player.play()
+		if not qtereel_sfx_player.playing: qtereel_sfx_player.play()
 
 
 func _ready() -> void:
@@ -206,6 +235,7 @@ func _on_area_entered(reel_fish: Area2D) -> void:
 func _on_qte_event_end_qte(is_success: bool) -> void:
 	qte_signal_repeater.emit(is_success)
 	if is_success:
+		winqte_sfx_player.play()
 		qte_tween = get_tree().create_tween().set_trans(Tween.TRANS_EXPO)
 		velocity = -position.normalized() * catch_speed
 		qte_tween.tween_property(self, "velocity", position.normalized() * drag_speed, burst_time)
@@ -220,6 +250,9 @@ func _on_qte_event_end_qte(is_success: bool) -> void:
 		fish = null
 		state = State.REELING
 		anim_player.play("IDLE")
+		struggle_sfx_player.stop()
+		qtereel_sfx_player.stop()
+		loseqte_sfx_player.play()
 
 
 func _on_score_changes(score: int) -> void:
