@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cjy642yatxidm"]
+[gd_scene load_steps=27 format=3 uid="uid://cjy642yatxidm"]
 
 [ext_resource type="Script" path="res://scripts/bobber.gd" id="1_4j1gh"]
 [ext_resource type="PackedScene" uid="uid://ciayav6ll3p1" path="res://scenes/experimental/qte_event.tscn" id="2_1lpvm"]
@@ -11,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://c8ujdxsae601c" path="res://assets/audio/592784__theflyfishingfilmmaker__trout-splashing-after-being-caught-edit-struggle.wav" id="9_vx3ma"]
 [ext_resource type="AudioStream" uid="uid://cmhl61pt1wkjy" path="res://assets/audio/326105__luannwepener__fishing-controll-edit-qte1.wav" id="10_4cffw"]
 [ext_resource type="AudioStream" uid="uid://bunxc835nfsfb" path="res://assets/audio/763511__handromyburg__various-fishing-rod-sounds-edit-qtewin.wav" id="11_jslgr"]
+[ext_resource type="AudioStream" uid="uid://cakkyphgwvoxl" path="res://assets/audio/563592__caitlynbananas__fish-release-edit.mp3" id="12_an08d"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ymqt8"]
 radius = 8.0
@@ -346,6 +347,10 @@ stream = ExtResource("11_jslgr")
 volume_db = 1.0
 pitch_scale = 0.99
 bus = &"SFX"
+
+[node name="QTELosePlayer" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("12_an08d")
+volume_db = -3.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_entered" from="FarBobber" to="." method="_on_bobber_range_area_entered"]

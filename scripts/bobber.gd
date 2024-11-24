@@ -23,7 +23,8 @@ enum State {
 @onready var reel_sfx_player: AudioStreamPlayer = $SFX/ReelPlayer
 @onready var struggle_sfx_player: AudioStreamPlayer = $SFX/StrugglePlayer
 @onready var qtereel_sfx_player: AudioStreamPlayer = $SFX/StruggleReelPlayer
-@onready var qtewin_sfx_player: AudioStreamPlayer = $SFX/QTEWinPlayer
+@onready var winqte_sfx_player: AudioStreamPlayer = $SFX/QTEWinPlayer
+@onready var loseqte_sfx_player: AudioStreamPlayer = $SFX/QTELosePlayer
 
 @export_group("Casting")
 @export var cast_speed := Vector2(25.0, 50.0)
@@ -230,7 +231,7 @@ func _on_area_entered(reel_fish: Area2D) -> void:
 func _on_qte_event_end_qte(is_success: bool) -> void:
 	qte_signal_repeater.emit(is_success)
 	if is_success:
-		qtewin_sfx_player.play()
+		winqte_sfx_player.play()
 		qte_tween = get_tree().create_tween().set_trans(Tween.TRANS_EXPO)
 		velocity = -position.normalized() * catch_speed
 		qte_tween.tween_property(self, "velocity", position.normalized() * drag_speed, burst_time)
@@ -245,6 +246,9 @@ func _on_qte_event_end_qte(is_success: bool) -> void:
 		fish = null
 		state = State.REELING
 		anim_player.play("IDLE")
+		struggle_sfx_player.stop()
+		qtereel_sfx_player.stop()
+		loseqte_sfx_player.play()
 
 
 func _on_score_changes(score: int) -> void:
