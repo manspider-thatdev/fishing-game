@@ -19,6 +19,7 @@ enum State {
 @onready var landing_sfx_player: AudioStreamPlayer = $SFX/LandingPlayer
 @onready var cast_sfx_player: AudioStreamPlayer = $SFX/CastPlayer
 @onready var catch_sfx_player: AudioStreamPlayer = $SFX/CatchPlayer
+@onready var reel_sfx_player: AudioStreamPlayer = $SFX/ReelPlayer
 
 @export_group("Casting")
 @export var cast_speed := Vector2(25.0, 50.0)
@@ -114,9 +115,14 @@ func reel(_delta: float) -> void:
 	
 	if Input.is_action_pressed("space"):
 		velocity = -position.normalized() * reel_speed
-	elif position.y >= 0 and Input.is_action_just_released("space"):
-		state = State.WINDING
-		predicted_cast = -1
+		reel_sfx_player.stream_paused = false
+		if not reel_sfx_player.playing: reel_sfx_player.play()
+	elif Input.is_action_just_released("space"):
+		reel_sfx_player.stream_paused = true
+		if position.y >= 0:
+			state = State.WINDING
+			predicted_cast = -1
+			reel_sfx_player.stop()
 
 
 func nudge(delta: float) -> void:
