@@ -30,10 +30,12 @@ func instantiate_combo_timer() -> void:
 	combo_timer.timeout.connect(_on_combo_timeout)
 	add_child(combo_timer)
 
+
 func instantiate_gui() -> CanvasLayer:
 	instantiate_combo_timer()
 	gui_node = GUI_SCENE.instantiate()
 	return gui_node
+
 
 func connect_bobber(bobber_node: Node2D):
 	bobber = bobber_node
@@ -42,23 +44,26 @@ func connect_bobber(bobber_node: Node2D):
 	bobber.qte_signal_repeater.connect(_on_qte_end)
 	score_updated.connect(bobber._on_score_changes)
 
+
 func score_calc(fish: FishData) -> int:
 	var size := fish.qte_size
 	var time := fish.qte_time
 	var c := combo if combo > 0 else 1
 	return floori(size * (size/time) * c)
 
+
 func set_fish_popup_data(fish: FishData):
 	assert(gui_node, "[gui_node] is null")
 	var cropped_tex := AtlasTexture.new()
 	cropped_tex.atlas = fish.texture2D
-	cropped_tex.region = Rect2(0, 0, fish.texture2D.get_width() / 2, fish.texture2D.get_height())
+	cropped_tex.region = Rect2(0, 0, fish.texture2D.get_width() * 0.5, fish.texture2D.get_height())
 	gui_node.caught_fish_label.text = fish.name
 	gui_node.caught_fish_texrect.texture = cropped_tex
 	gui_node.anim_player.play("UP_CAUGHT")
 	await get_tree().create_timer(4).timeout
 	gui_node.anim_player.play("DOWN_CAUGHT")
-	
+
+
 func _on_bobber_win(fish: FishData):
 	var calc := score_calc(fish)
 	score_calculated.emit(calc)
@@ -67,14 +72,17 @@ func _on_bobber_win(fish: FishData):
 	combo_timer.start(COMBO_TIME)
 	set_fish_popup_data(fish)
 
+
 func _on_bobber_lose(fish: FishData):
 	score_calculated.emit(-fish.qte_size)
 	score -= fish.qte_size
 	combo = 0
 	combo_timer.stop()
 
+
 func _on_combo_timeout():
 	combo = 0
+
 
 func _on_qte_end(is_success: bool):
 	if is_success: combo_timer.start(COMBO_TIME)

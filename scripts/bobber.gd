@@ -87,6 +87,7 @@ func windup(_delta: float) -> void:
 func cast(_delta: float) -> void:
 	if Input.is_action_just_pressed("space"):
 		state = State.REELING
+		anim_player.play("IDLE")
 	
 	var sway: float = Input.get_axis("left", "right")
 	velocity = Vector2(cast_speed.x * sway, -cast_speed.y)
@@ -94,6 +95,7 @@ func cast(_delta: float) -> void:
 	if absf(position.y) >= predicted_cast:
 		position.y = -predicted_cast
 		state = State.REELING
+		anim_player.play("IDLE")
 
 
 func reel(_delta: float) -> void:
@@ -114,6 +116,7 @@ func nudge(delta: float) -> void:
 	velocity = velocity.move_toward(Vector2.ZERO, delta * nudge_friction)
 	if velocity == Vector2.ZERO or Input.is_action_pressed("space"):
 		state = State.REELING
+		anim_player.play("IDLE")
 
 
 func check_fish_nudge() -> void:
@@ -131,7 +134,8 @@ func play_nudge_animation(direction: Vector2) -> void:
 		anim_player.play("DOWN")
 	else:
 		anim_player.play("UP")
-	anim_player.queue("IDLE")
+	await anim_player.animation_finished
+	print(anim_player.current_animation)
 
 
 func catch(_delta: float) -> void:
