@@ -22,6 +22,8 @@ enum State {
 @onready var catch_sfx_player: AudioStreamPlayer = $SFX/CatchPlayer
 @onready var reel_sfx_player: AudioStreamPlayer = $SFX/ReelPlayer
 @onready var struggle_sfx_player: AudioStreamPlayer = $SFX/StrugglePlayer
+@onready var qtereel_sfx_player: AudioStreamPlayer = $SFX/StruggleReelPlayer
+@onready var qtewin_sfx_player: AudioStreamPlayer = $SFX/QTEWinPlayer
 
 @export_group("Casting")
 @export var cast_speed := Vector2(25.0, 50.0)
@@ -109,6 +111,7 @@ func cast(_delta: float) -> void:
 
 
 func reel(_delta: float) -> void:
+	reel_sfx_player.stream_paused = true
 	velocity = Input.get_vector("left", "right", "up", "down") * nudge_speed
 	if velocity != Vector2.ZERO:
 		state = State.NUDGING
@@ -152,6 +155,7 @@ func play_nudge_animation(direction: Vector2) -> void:
 
 
 func catch(_delta: float) -> void:
+	reel_sfx_player.stop()
 	if position.y >= 0:
 		position = Vector2.ZERO
 		velocity = Vector2.ZERO
@@ -160,6 +164,7 @@ func catch(_delta: float) -> void:
 		state = State.WINDING
 		anim_player.play("IDLE")
 		struggle_sfx_player.stop()
+		qtereel_sfx_player.stop()
 		catch_sfx_player.play()
 		win_fish.emit(fish.fish_data)
 		fish.queue_free()
@@ -172,11 +177,13 @@ func catch(_delta: float) -> void:
 		state = State.REELING
 		anim_player.play("IDLE")
 		struggle_sfx_player.stop()
+		qtereel_sfx_player.stop()
 	
 	if fish != null:
 		fish.position = fish_position
 		temporary_pause = false
 		if not struggle_sfx_player.playing: struggle_sfx_player.play()
+		if not qtereel_sfx_player.playing: qtereel_sfx_player.play()
 
 
 func _ready() -> void:
@@ -223,6 +230,7 @@ func _on_area_entered(reel_fish: Area2D) -> void:
 func _on_qte_event_end_qte(is_success: bool) -> void:
 	qte_signal_repeater.emit(is_success)
 	if is_success:
+		qtewin_sfx_player.play()
 		qte_tween = get_tree().create_tween().set_trans(Tween.TRANS_EXPO)
 		velocity = -position.normalized() * catch_speed
 		qte_tween.tween_property(self, "velocity", position.normalized() * drag_speed, burst_time)
