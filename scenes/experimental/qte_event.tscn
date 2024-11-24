@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://ciayav6ll3p1"]
+[gd_scene load_steps=6 format=3 uid="uid://ciayav6ll3p1"]
 
 [ext_resource type="Script" path="res://scripts/qte_event.gd" id="1_nahoe"]
+[ext_resource type="AudioStream" uid="uid://c8ftmimpxwdhp" path="res://assets/audio/763511__handromyburg__various-fishing-rod-sounds-edit-input.wav" id="2_xqm4y"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mlrb1"]
 content_margin_left = 3.0
@@ -81,5 +82,11 @@ theme_override_styles/background = SubResource("StyleBoxFlat_3n00l")
 theme_override_styles/fill = SubResource("StyleBoxFlat_e3dnq")
 value = 50.0
 show_percentage = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_xqm4y")
+volume_db = 3.5
+max_polyphony = 3
+bus = &"SFX"
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
